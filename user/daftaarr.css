@@ -1,0 +1,139 @@
+/* Reset & Font */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.wrapper {
+  width: 100%;
+  max-width: 400px;
+  opacity: 0;
+  animation: fadeIn 0.8s forwards;
+}
+.container {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+h2 {
+  text-align: center;
+  color: #fff;
+  margin-bottom: 1rem;
+  font-size: 1.6rem;
+}
+.alert {
+  background: #ffe6e6;
+  color: #d33;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+}
+form {
+  display: flex;
+  flex-direction: column;
+}
+.input-icon {
+  position: relative;
+  margin-bottom: 1rem;
+}
+.input-icon i {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #fff;
+}
+.input-icon input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 3rem;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.3);
+  color: #fff;
+  outline: none;
+  transition: background 0.3s;
+}
+.input-icon input:focus {
+  background: rgba(255, 255, 255, 0.5);
+}
+.input-icon label {
+  position: absolute;
+  left: 3rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #eee;
+  pointer-events: none;
+  transition: all 0.2s;
+}
+.input-icon input:focus + label,
+.input-icon input:not(:placeholder-shown) + label {
+  top: -0.6rem;
+  font-size: 0.75rem;
+  color: #fff;
+  background: rgba(30, 60, 114, 0.8);
+  padding: 0 0.3rem;
+  border-radius: 4px;
+}
+.toggle-password {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #fff;
+}
+.btn {
+  padding: 0.75rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  margin-top: 0.5rem;
+}
+.btn-submit {
+  width: 100%;
+  background: #ffb400;
+  color: #1e3c72;
+}
+.btn-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+.bottom {
+  text-align: center;
+  margin-top: 1rem;
+  color: #eee;
+  font-size: 0.9rem;
+}
+.bottom a {
+  color: #ffb400;
+  text-decoration: none;
+}
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.intro {
+  color: #f1f1f1;
+  font-size: 1rem;
+  line-height: 1.5;
+  text-align: center;
+}
+.intro i {
+  color: #ffb400;
+  margin-right: 0.5rem;
+}

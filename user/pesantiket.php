@@ -126,9 +126,78 @@ $userEmail = htmlspecialchars($_SESSION['email']);
       <button type="submit" class="search-btn"><i class="fas fa-search"></i> Cari Tiket</button>
     </form>
   </section>
+
+  <section class="booking-steps">
+    <div class="booking-steps-container container">
+        <!-- Decorative elements -->
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        
+        <!-- Section heading -->
+        <div class="section-header">
+            <span class="preheading">Proses Pemesanan Cepat</span>
+            <h2>Pesan tiket bus hanya dalam 3 langkah</h2>
+            <p>Proses pemesanan tiket kurang dari <strong>5 menit</strong> dengan sistem yang aman dan terpercaya</p>
+        </div>
+        
+        <!-- Steps wrapper -->
+        <div class="steps">
+            <!-- Step 1 -->
+            <div class="step" data-step="1">
+                <div class="step-icon-wrapper">
+                    <div class="step-number">01</div>
+                    <div class="icon-overlay">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                </div>
+                <div class="step-content">
+                    <h3>LOKASI</h3>
+                    <p>Pilih tempat keberangkatan dan tujuan Anda dengan mudah</p>
+                    <div class="step-extra">
+                        <span class="badge">Mudah</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 2 -->
+            <div class="step" data-step="2">
+                <div class="step-icon-wrapper">
+                    <div class="step-number">02</div>
+                    <div class="icon-overlay">
+                        <i class="fas fa-ticket-alt"></i>
+                    </div>
+                </div>
+                <div class="step-content">
+                    <h3>TARIF</h3>
+                    <p>Pilih tiket dan kelas sesuai dengan budget Anda</p>
+                    <div class="step-extra">
+                        <span class="badge">Terjangkau</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 3 -->
+            <div class="step" data-step="3">
+                <div class="step-icon-wrapper">
+                    <div class="step-number">03</div>
+                    <div class="icon-overlay">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                </div>
+                <div class="step-content">
+                    <h3>PEMBAYARAN</h3>
+                    <p>Bayar dengan kartu, e-wallet, atau transfer bank</p>
+                    <div class="step-extra">
+                        <span class="badge">Aman</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
   <section class="benefits">
     <div class="container">
-        <h2>Mengapa Memilih BusGO untuk Perjalanan Singkat Anda</h2>
+        <h2>Mengapa Memilih Nova Trans untuk Perjalanan Singkat Anda</h2>
         <div class="benefit-cards">
             <div class="benefit-card">
                 <h3>CEPAT & PRAKTIS</h3>

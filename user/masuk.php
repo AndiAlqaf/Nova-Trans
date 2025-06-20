@@ -130,7 +130,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
           <label class="remember">
             <input type="checkbox" name="remember" /> Ingat saya
           </label>
-          <a href="lupa_password.php" class="forgot">Lupa Password?</a>
         </div>
 
         <button type="submit" class="btn submit-btn">Masuk</button>
