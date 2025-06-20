@@ -21,7 +21,7 @@ $success = "";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Outlet & Perwakilan Bus Trans Sulawesi</title>
+    <title>Outlet & Perwakilan - Nova Trans</title>
     <link rel="stylesheet" href="outlet.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>

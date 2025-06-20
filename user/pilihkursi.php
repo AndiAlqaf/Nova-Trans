@@ -155,7 +155,7 @@ $booked_seats = array_unique($booked_seats);
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>BusGO - Pilih Kursi Anda</title>
+  <title>Pilih Kursi Anda - Nova Trans</title>
   <link rel="stylesheet" href="pilihkursi.css"/>
   <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
