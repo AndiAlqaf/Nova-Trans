@@ -1,0 +1,199 @@
+/* Reset & Font */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Wrapper untuk centering */
+.login-wrapper {
+  width: 100%;
+  max-width: 400px;
+  padding: 2rem;
+  animation: fadeIn 0.8s ease-out forwards;
+  opacity: 0;
+}
+
+/* Glassmorphism container */
+.login-container {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: 2.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+/* Heading */
+.login-container h1 {
+  text-align: center;
+  color: #fff;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+}
+
+/* Alerts */
+.alert {
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+  font-weight: 500;
+}
+.alert-error {
+  background-color: #ffe6e6;
+  color: #d33;
+  border: 1px solid #ffcccc;
+}
+
+/* Form group & floating label */
+.form-group {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+.input-icon {
+  position: relative;
+}
+.input-icon i {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #fff;
+  font-size: 1.1rem;
+}
+.input-icon input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 3rem;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.3);
+  color: #fff;
+  outline: none;
+  transition: background 0.3s;
+}
+.input-icon input:focus {
+  background: rgba(255, 255, 255, 0.5);
+}
+.input-icon label {
+  position: absolute;
+  left: 3rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #eee;
+  pointer-events: none;
+  transition: all 0.2s;
+}
+.input-icon input:focus + label,
+.input-icon input:not(:placeholder-shown) + label {
+  top: -0.6rem;
+  font-size: 0.75rem;
+  color: #fff;
+  background: rgba(30, 60, 114, 0.8);
+  padding: 0 0.25rem;
+}
+
+/* Toggle password eye */
+.toggle-password {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #fff;
+}
+
+/* Extra options */
+.extra-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.extra-options .remember input {
+  margin-right: 0.3rem;
+}
+.extra-options a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+.extra-options a:hover {
+  text-decoration: underline;
+}
+
+/* Button */
+.btn {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.submit-btn {
+  background: #ffb400;
+  color: #1e3c72;
+  margin-bottom: 1rem;
+}
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Social login */
+.social-login {
+  text-align: center;
+}
+.social-login p {
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+.btn.social {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  padding: 0.6rem 1rem;
+  margin: 0.25rem;
+  background: rgba(255, 255, 255, 0.3);
+  color: #fff;
+  font-size: 0.9rem;
+}
+.btn.social i {
+  margin-right: 0.5rem;
+}
+.btn.facebook:hover {
+  background: rgba(59, 89, 152, 0.8);
+}
+.btn.google:hover {
+  background: rgba(219, 68, 55, 0.8);
+}
+
+/* Signup link */
+.signup-link {
+  text-align: center;
+  margin-top: 1rem;
+  color: #eee;
+}
+.signup-link a {
+  color: #ffb400;
+  text-decoration: none;
+}
+.signup-link a:hover {
+  text-decoration: underline;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}

@@ -67,36 +67,30 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Login – Nova Trans</title>
+  <!-- Font -->
   <link
     href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="masuk.css"/>
-  <style>
-    .alert {
-      padding: 10px;
-      margin-bottom: 15px;
-      border-radius: 4px;
-      font-weight: 500;
-    }
-    .alert-error {
-      background-color: #ffe6e6;
-      color: #d33;
-      border: 1px solid #ffcccc;
-    }
-  </style>
+  <!-- FontAwesome -->
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="masukk.css"/>
 </head>
 <body>
-  <div class="main-content">
+  <div class="login-wrapper">
     <div class="login-container">
       <h1>Masuk ke Akun</h1>
-      
+
       <?php if ($error !== ""): ?>
       <div class="alert alert-error">
         <?= htmlspecialchars($error) ?>
@@ -105,35 +99,59 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
       <form method="POST" action="">
         <div class="form-group">
-          <label for="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="Masukkan email"
-            value="<?= htmlspecialchars($_POST['email'] ?? '') ?>"
-            required
-          />
+          <div class="input-icon">
+            <i class="fas fa-envelope"></i>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              value="<?= htmlspecialchars($_POST['email'] ?? '') ?>"
+            />
+            <label for="email">Email</label>
+          </div>
         </div>
 
         <div class="form-group">
-          <label for="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Masukkan password"
-            required
-          />
+          <div class="input-icon">
+            <i class="fas fa-lock"></i>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              required
+            />
+            <label for="password">Password</label>
+            <span class="toggle-password"><i class="fas fa-eye"></i></span>
+          </div>
         </div>
 
-        <button type="submit" class="btn">Masuk</button>
-
-        <div class="auth-links">
-          <p>Belum punya akun? <a href="daftar.php">Daftar Sekarang</a></p>
+        <div class="extra-options">
+          <label class="remember">
+            <input type="checkbox" name="remember" /> Ingat saya
+          </label>
+          <a href="lupa_password.php" class="forgot">Lupa Password?</a>
         </div>
+
+        <button type="submit" class="btn submit-btn">Masuk</button>
+
+        <p class="signup-link">
+          Belum punya akun? <a href="daftar.php">Daftar Sekarang</a>
+        </p>
       </form>
     </div>
   </div>
+
+  <!-- Toggle password script -->
+  <script>
+    document.querySelector('.toggle-password').addEventListener('click', function(){
+      const pwd = document.getElementById('password');
+      const type = pwd.getAttribute('type') === 'password' ? 'text' : 'password';
+      pwd.setAttribute('type', type);
+      this.innerHTML = type === 'password'
+        ? '<i class="fas fa-eye"></i>'
+        : '<i class="fas fa-eye-slash"></i>';
+    });
+  </script>
 </body>
 </html>
