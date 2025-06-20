@@ -56,7 +56,7 @@ $rows  = $query->fetchAll(PDO::FETCH_ASSOC);
 <body>
     <div class="sidebar">
     <div class="logo-container">
-      <i class="fas fa-bus"></i>
+      <img src="../user/Gambar/LOGO.png" alt="Nova Trans Logo" style="width:32px;height:auto;margin-right:8px;">
       <h2>NOVA TRANS</h2>
     </div>
     

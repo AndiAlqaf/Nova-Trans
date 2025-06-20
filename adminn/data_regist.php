@@ -64,7 +64,7 @@ $query = $koneksi->query("SELECT * FROM user ORDER BY created_at DESC");
 <body>
   <div class="sidebar">
     <div class="logo-container">
-      <i class="fas fa-bus"></i>
+      <img src="../user/Gambar/LOGO.png" alt="Nova Trans Logo" style="width:32px;height:auto;margin-right:8px;">
       <h2>NOVA TRANS</h2>
     </div>
     <div class="menu-item"><a href="dashboard.php"><i class="fas fa-home"></i><span>Dashboard</span></a></div>

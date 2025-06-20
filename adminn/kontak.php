@@ -63,7 +63,8 @@ $total    = count($contacts);
 <body>
   <div class="sidebar">
     <div class="logo-container">
-      <i class="fas fa-bus"></i><h2>NOVA TRANS</h2>
+      <img src="../user/Gambar/LOGO.png" alt="Nova Trans Logo" style="width:32px;height:auto;margin-right:8px;">
+      <h2>NOVA TRANS</h2>
     </div>
     <div class="menu-item"><a href="dashboard.php"><i class="fas fa-home"></i><span>Dashboard</span></a></div>
     <div class="menu-item"><a href="data_regist.php"><i class="fas fa-user-cog"></i><span>Data Registrasi</span></a></div>
