@@ -103,7 +103,14 @@ $rows  = $query->fetchAll(PDO::FETCH_ASSOC);
             </i><span>Kelola Kontak</span>
           </a>
         </div>
-    
+        
+        <div class="menu-item"><a href="testimoni.php">
+          <i class="fas fa-comments">
+          </i><span>Kelola Testimoni</span>
+        </a>
+      </div>
+
+
     <div class="menu-item">
       <a href="laporan.php">
         <i class="fas fa-file-alt"></i>
