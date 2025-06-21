@@ -25,7 +25,6 @@ try {
     die("Koneksi gagal: " . $e->getMessage());
 }
 
-$userEmail = htmlspecialchars($_SESSION['email']);
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -54,7 +53,6 @@ $userEmail = htmlspecialchars($_SESSION['email']);
       <a href="blog.php"><i class="fas fa-newspaper"></i> Blog</a>
     </div>
     <div class="auth-buttons">
-      <span class="user-email"><i class="fas fa-user"></i> <?= $userEmail ?></span>
       <a href="logout.php"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
     </div>
   </nav>

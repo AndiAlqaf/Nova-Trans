@@ -13,6 +13,7 @@ try {
     die("Connection failed: " . $e->getMessage());
 }
 
+
 $error = "";
 $success = "";
 ?>
@@ -52,9 +53,8 @@ $success = "";
         <a href="blog.php"><i class="fas fa-newspaper"></i> Blog</a>
       </div>
       <div class="auth-buttons">
-        <a class="btn btn-primary" href="cetaktiket.php"><i class="fas fa-qrcode"></i> Cek Tiket</a>
-        <a class="btn btn-outline" href="masuk.php"><i class="fas fa-user"></i> Daftar/Masuk</a>
-      </div>
+      <a href="logout.php"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
+    </div>
     </nav>
 
     <!-- MAIN CONTENT -->

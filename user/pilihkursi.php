@@ -149,6 +149,7 @@ foreach ($raw as $entry) {
     }
 }
 $booked_seats = array_unique($booked_seats);
+
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -176,7 +177,6 @@ $booked_seats = array_unique($booked_seats);
       <a href="blog.php"><i class="fas fa-newspaper"></i> Blog</a>
     </div>
     <div class="auth-buttons">
-      <span class="user-email"><i class="fas fa-user"></i> <?= $userEmail ?></span>
       <a href="logout.php"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
     </div>
   </nav>
