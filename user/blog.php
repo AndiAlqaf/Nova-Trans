@@ -119,27 +119,25 @@ ob_end_flush();
   </style>
 </head>
 <body>
-  <!-- Navbar -->
-  <nav class="navbar">
-    <div class="logo-mobile-wrap">
-      <a href="cetaktiket.php" class="logo">
-        <img src="Gambar/LOGO.png" alt="Nova Trans" />
-      </a>
-      <button class="mobile-menu-btn">
-        <i class="fas fa-bars"></i>
-      </button>
+   <!-- Navbar -->
+   <!-- Navbar -->
+    <nav class="navbar">
+      <div class="logo-mobile-wrap">
+        <a href="pesantiket.php" class="logo">
+          <img src="Gambar/LOGO.png" alt="Madinah Trans" />
+        </a>
+      </div>
+      <div class="nav-links">
+        <a href="pesantiket.php"><i class="fas fa-ticket-alt"></i> Pesan Tiket</a>
+        <a href="tentang.php"><i class="fas fa-info-circle"></i> Tentang</a>
+        <a href="outlet.php"><i class="fas fa-store"></i> Outlet</a>
+        <a href="kontak.php"><i class="fas fa-phone"></i> Kontak</a>
+        <a href="blog.php"><i class="fas fa-newspaper"></i> Blog</a>
+      </div>
+      <div class="auth-buttons">
+        <a href="logout.php"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
     </div>
-    <div class="nav-links">
-      <a href="pesantiket.php"><i class="fas fa-ticket-alt"></i> Pesan Tiket</a>
-      <a href="tentang.php"><i class="fas fa-info-circle"></i> Tentang</a>
-      <a href="outlet.php"><i class="fas fa-store"></i> Outlet</a>
-      <a href="kontak.php"><i class="fas fa-phone"></i> Kontak</a>
-      <a href="blog.php"><i class="fas fa-newspaper"></i> Blog</a>
-    </div>
-    <div class="auth-buttons">
-      <a href="logout.php"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
-    </div>
-  </nav>
+    </nav>
 
   <!-- Hero Section -->
   <section class="hero-section">

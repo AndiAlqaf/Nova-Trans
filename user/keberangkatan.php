@@ -14,7 +14,7 @@ $stmt->execute([
     ':asal' => "%$kota_asal%",
     ':tujuan' => "%$kota_tujuan%"
 ]);
-$hasil = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$hasil = $stmt->fetchAll(PDO::FETCH_ASSOC); 
 ?>
 <!DOCTYPE html>
 <html lang="id">

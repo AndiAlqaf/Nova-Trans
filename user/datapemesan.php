@@ -140,6 +140,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
+
+// 4. Ambil nama pengguna dari tabel `user`
+$userId = $_SESSION['user_id'];
+$stmt = $conn->prepare("SELECT nama_pengguna FROM user WHERE id_pengguna = :id");
+$stmt->execute([':id' => $userId]);
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+$namaUser = $user ? $user['nama_pengguna'] : '';
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -151,24 +158,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="datapemesann.css">
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="logo-mobile-wrap">
-            <a href="pesantiket.php" class="logo">
-                <img src="Gambar/LOGO.png" alt="Nova Trans" />
-            </a>
-        </div>
-        <div class="nav-links">
-            <a href="pesantiket.php"><i class="fas fa-ticket-alt"></i> Pesan Tiket</a>
-            <a href="tentang.php"><i class="fas fa-info-circle"></i> Tentang</a>
-            <a href="outlet.php"><i class="fas fa-store"></i> Outlet</a>
-            <a href="kontak.php"><i class="fas fa-phone"></i> Kontak</a>
-            <a href="blog.php"><i class="fas fa-newspaper"></i> Blog</a>
-        </div>
-        <div class="auth-buttons">
-      <a href="logout.php"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
+  <nav class="navbar">
+    <div class="logo-mobile-wrap">
+      <a href="pesantiket.php" class="logo">
+        <img src="Gambar/LOGO.png" alt="Nova Trans"/>
+      </a>
     </div>
-    </nav>
+    <div class="nav-links">
+      <a href="pesantiket.php"><i class="fas fa-ticket-alt"></i> Pesan Tiket</a>
+      <a href="tentang.php"><i class="fas fa-info-circle"></i> Tentang</a>
+      <a href="outlet.php"><i class="fas fa-store"></i> Outlet</a>
+      <a href="kontak.php"><i class="fas fa-phone"></i> Kontak</a>
+      <a href="blog.php"><i class="fas fa-newspaper"></i> Blog</a>
+    </div>
+    <div class="auth-buttons">
+      <!-- Tampilkan ikon + nama user -->
+      <span class="nav-user">
+        <i class="fas fa-user"></i>
+        <?= htmlspecialchars($namaUser, ENT_QUOTES, 'UTF-8') ?>
+      </span>
+      <a href="logout.php">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Logout</span>
+      </a>
+    </div>
+  </nav>
 
     <!-- Progress bar booking -->
     <div class="booking-progress">
