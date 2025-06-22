@@ -183,7 +183,7 @@ $success = "";
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
+<footer class="footer">
       <div class="footer-content">
         <div class="footer-section footer-logo">
           <img src="Gambar/LOGO2.png" alt="Logo Nova Trans" />
@@ -197,31 +197,30 @@ $success = "";
         </div>
         <div class="footer-section">
           <h3>Call Center</h3>
-          <a href="tel:0822-9215-9543"><i class="fas fa-phone"></i> 0822-9215-9543</a>
-          <a href="mailto:info@madinahtrans.co.id"><i class="fas fa-envelope"></i> info@novatrans.co.id</a>
+          <a href="tel:0821-9439-2804"><i class="fas fa-phone"></i> 0821-9439-2804</a>
+          <a href="mailto:novatransbus@gmail.com"><i class="fas fa-envelope"></i> novatransbus@gmail.com</a>
           <a href="#"><i class="fab fa-whatsapp"></i> WhatsApp CS</a>
         </div>
         <div class="footer-section">
           <h3>Informasi</h3>
-          <a href="cetaktiket.php"><i class="fas fa-home"></i> Beranda</a>
+          <a href="pesantiket.php"><i class="fas fa-home"></i> Beranda</a>
           <a href="jadwal.php"><i class="fas fa-calendar-alt"></i> Jadwal</a>
-          <a href="pesan-tiket.php"><i class="fas fa-ticket-alt"></i> Pesan Tiket</a>
+          <a href="pesantiket.php"><i class="fas fa-ticket-alt"></i> Pesan Tiket</a>
           <a href="kontak.php"><i class="fas fa-address-book"></i> Kontak</a>
           <a href="blog.php"><i class="fas fa-newspaper"></i> Blog</a>
         </div>
         <div class="footer-section">
           <h3>Rute Populer</h3>
           <a href="#">Makassar - Sorowako</a>
-          <a href="#">Makassar - Malili</a>
-          <a href="#">Makassar - Morowali</a>
-          <a href="#">Makassar - Bahodopi</a>
+          <a href="#">Makassar - Toroja</a>
+          <a href="#">Makassar - Pare-Pare</a>
+          <a href="#">Makassar - Palopo</a>
         </div>
       </div>
       <div class="footer-bottom">
         &copy; 2025 Nova Trans. All rights reserved.
       </div>
     </footer>
-
     <script src="outlet.js"></script>
 </body>
 </html>

@@ -65,12 +65,12 @@ $success = "";
       <div class="content-section">
         <h1>Apa itu Nova Trans?</h1>
         <p>
-          Sejak berdiri pada tahun 2024, Bus Madinah Trans telah menjadi pilihan
+          Sejak berdiri pada tahun 2025, Bus Nova Trans telah menjadi pilihan
           utama perjalanan darat untuk
           <span class="highlight">rute Makassar-Luwu Timur</span>. Kami menawarkan
           berbagai kelas bus, mulai dari
           <span class="bus-classes"
-            >Millenium Big Class, Royal Sleeper Class, dan Millenium Big Class
+            >Executive Big Class, Ekonomi Class, dan Slepper Class
             Limited</span
           >, yang dirancang untuk memberikan kenyamanan dan kemewahan dalam
           setiap perjalanan.
@@ -98,23 +98,23 @@ $success = "";
         </div>
         <div class="footer-section">
           <h3>Call Center</h3>
-          <a href="tel:0822-9215-9543"><i class="fas fa-phone"></i> 0822-9215-9543</a>
-          <a href="mailto:info@madinahtrans.co.id"><i class="fas fa-envelope"></i> info@novatrans.co.id</a>
+          <a href="tel:0821-9439-2804"><i class="fas fa-phone"></i> 0821-9439-2804</a>
+          <a href="mailto:novatransbus@gmail.com"><i class="fas fa-envelope"></i> novatransbus@gmail.com</a>
           <a href="#"><i class="fab fa-whatsapp"></i> WhatsApp CS</a>
         </div>
         <div class="footer-section">
           <h3>Informasi</h3>
-          <a href="index.php"><i class="fas fa-home"></i> Beranda</a>
+          <a href="pesantiket.php"><i class="fas fa-home"></i> Beranda</a>
           <a href="jadwal.php"><i class="fas fa-calendar-alt"></i> Jadwal</a>
-          <a href="pesan-tiket.php"><i class="fas fa-ticket-alt"></i> Pesan Tiket</a>
+          <a href="pesantiket.php"><i class="fas fa-ticket-alt"></i> Pesan Tiket</a>
           <a href="kontak.php"><i class="fas fa-address-book"></i> Kontak</a>
           <a href="blog.php"><i class="fas fa-newspaper"></i> Blog</a>
         </div>
         <div class="footer-section">
           <h3>Rute Populer</h3>
           <a href="#">Makassar - Sorowako</a>
-          <a href="#">Makassar - Malili</a>
-          <a href="#">Makassar - Mangkutana</a>
+          <a href="#">Makassar - Toroja</a>
+          <a href="#">Makassar - Pare-Pare</a>
           <a href="#">Makassar - Palopo</a>
         </div>
       </div>

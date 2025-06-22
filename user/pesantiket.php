@@ -273,8 +273,8 @@ try {
       </section>
 
 
-  <!-- Footer -->
-    <footer class="footer">
+    <!-- Footer -->
+<footer class="footer">
       <div class="footer-content">
         <div class="footer-section footer-logo">
           <img src="Gambar/LOGO2.png" alt="Logo Nova Trans" />
@@ -288,8 +288,8 @@ try {
         </div>
         <div class="footer-section">
           <h3>Call Center</h3>
-          <a href="tel:0822-9215-9543"><i class="fas fa-phone"></i> 0822-9215-9543</a>
-          <a href="mailto:info@madinahtrans.co.id"><i class="fas fa-envelope"></i> info@novatrans.co.id</a>
+          <a href="tel:0821-9439-2804"><i class="fas fa-phone"></i> 0821-9439-2804</a>
+          <a href="mailto:novatransbus@gmail.com"><i class="fas fa-envelope"></i> novatransbus@gmail.com</a>
           <a href="#"><i class="fab fa-whatsapp"></i> WhatsApp CS</a>
         </div>
         <div class="footer-section">
@@ -303,9 +303,9 @@ try {
         <div class="footer-section">
           <h3>Rute Populer</h3>
           <a href="#">Makassar - Sorowako</a>
-          <a href="#">Makassar - Malili</a>
-          <a href="#">Makassar - Morowali</a>
-          <a href="#">Makassar - Bahodopi</a>
+          <a href="#">Makassar - Toroja</a>
+          <a href="#">Makassar - Pare-Pare</a>
+          <a href="#">Makassar - Palopo</a>
         </div>
       </div>
       <div class="footer-bottom">

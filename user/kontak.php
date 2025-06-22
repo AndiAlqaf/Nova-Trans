@@ -125,6 +125,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
     </div>
 
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-section footer-logo">
+          <img src="Gambar/LOGO2.png" alt="Logo Nova Trans" />
+          <p>Solusi Transportasi Terbaik dan Terpercaya Rute Makassar - Luwu Timur</p>
+          <div class="footer-social">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div class="footer-section">
+          <h3>Call Center</h3>
+          <a href="tel:0821-9439-2804"><i class="fas fa-phone"></i> 0821-9439-2804</a>
+          <a href="mailto:novatransbus@gmail.com"><i class="fas fa-envelope"></i> novatransbus@gmail.com</a>
+          <a href="#"><i class="fab fa-whatsapp"></i> WhatsApp CS</a>
+        </div>
+        <div class="footer-section">
+          <h3>Informasi</h3>
+          <a href="pesantiket.php"><i class="fas fa-home"></i> Beranda</a>
+          <a href="jadwal.php"><i class="fas fa-calendar-alt"></i> Jadwal</a>
+          <a href="pesantiket.php"><i class="fas fa-ticket-alt"></i> Pesan Tiket</a>
+          <a href="kontak.php"><i class="fas fa-address-book"></i> Kontak</a>
+          <a href="blog.php"><i class="fas fa-newspaper"></i> Blog</a>
+        </div>
+        <div class="footer-section">
+          <h3>Rute Populer</h3>
+          <a href="#">Makassar - Sorowako</a>
+          <a href="#">Makassar - Toroja</a>
+          <a href="#">Makassar - Pare-Pare</a>
+          <a href="#">Makassar - Palopo</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        &copy; 2025 Nova Trans. All rights reserved.
+      </div>
+    </footer>
+
     <script>
       $(function() {
         $('#formKontak').on('submit', function(e) {
