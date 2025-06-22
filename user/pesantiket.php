@@ -71,11 +71,19 @@ $namaUser = $user ? $user['nama_pengguna'] : '';
     </div>
   </nav>
 
-  <!-- Hero -->
+   <!-- Hero -->
   <section class="hero">
     <h1>Jelajahi Sulawesi Selatan dengan Nyaman</h1>
     <p>Pesan tiket bus sesuai kebutuhan Anda.</p>
+
+    <!-- CTA “Lihat Semua Tiket” di dalam hero -->
+    <div class="hero-cta">
+      <a href="keberangkatan.php?show_all=1" class="btn-primary btn-lg">
+        <i class="fas fa-bus"></i> Lihat Semua Tiket
+      </a>
+    </div>
   </section>
+
 
   <!-- Pencarian Tiket -->
   <section class="search-box">
@@ -87,10 +95,10 @@ $namaUser = $user ? $user['nama_pengguna'] : '';
             <option value="" disabled selected>Pilih lokasi</option>
             <option>Makassar</option>
             <option>Palopo</option>
-            <option value="Masamba">Masamba</option>
-            <option value="Malili">Malili</option>
+            <option value="Enrekang">Enrekang</option>
+            <option value="Bone">Bone</option>
             <option value="Pare-Pare">Pare-Pare</option>
-            <option value="Pangkajene">Pangkajene</option>
+            <option value="Sidrap">Sidrap</option>
             <option value="Mangkutana">Mangkutana</option>
             <option value="Sorowako">Sorowako</option>
             <option value="Toraja">Toraja</option>
@@ -104,13 +112,13 @@ $namaUser = $user ? $user['nama_pengguna'] : '';
             <option value="" disabled selected>Pilih lokasi</option>
             <option>Makassar</option>
             <option>Palopo</option>
-            <option>Masamba</option>
-            <option>Malili</option>
-            <option>Pare-Pare</option>
-            <option>Pangkajene</option>
-            <option>Mangkutana</option>
-            <option>Sorowako</option>
-            <option>Toraja</option>
+            <option value="Enrekang">Enrekang</option>
+            <option value="Bone">Bone</option>
+            <option value="Pare-Pare">Pare-Pare</option>
+            <option value="Sidrap">Sidrap</option>
+            <option value="Mangkutana">Mangkutana</option>
+            <option value="Sorowako">Sorowako</option>
+            <option value="Toraja">Toraja</option>
           </select>
         </div>
       </div>

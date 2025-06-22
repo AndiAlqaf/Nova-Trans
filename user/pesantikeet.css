@@ -220,41 +220,42 @@ body {
   gap: 1rem;
 }
 
-/* Hero Section */
+/* Jika perlu override background hero atau centering */
 .hero {
-  background: linear-gradient(
-      135deg,
-      rgba(3, 17, 39, 0.85),
-      rgba(60, 114, 235, 0.85)
-    ),
-    url("/api/placeholder/1200/400");
-  background-size: cover;
-  background-position: center;
-  color: white;
-  text-align: center;
-  padding: 140px 20px 120px;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  user-select: none;
-  box-shadow: inset 0 0 150px 40px rgba(3, 17, 39, 0.75);
+  position: relative;
+  /* background, padding, dsb tetap seperti semula */
 }
 
-.hero-content {
-  max-width: 720px;
-  margin: 0 auto;
+.hero-cta {
+  margin-top: 1.5rem; /* spasi di bawah teks hero */
+  text-align: center; /* tombol di tengah */
 }
 
-.hero h1 {
-  font-size: 3.8rem;
-  margin-bottom: 22px;
-  text-shadow: 0 5px 12px rgba(0, 0, 0, 0.5);
-  line-height: 1.1;
+/* Reuse tombol besar dari sebelumnya */
+.btn-lg {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 1.25rem;
+  border-radius: 0.3rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.hero p {
-  font-size: 1.3rem;
-  margin-bottom: 38px;
-  text-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+.btn-lg:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-primary {
+  background-color: #e76f51;
+  color: #fff;
+  text-decoration: none;
+}
+
+.btn-primary:hover {
+  background-color: #d4573e;
 }
 
 /* Search Box */
