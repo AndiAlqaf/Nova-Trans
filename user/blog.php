@@ -1,6 +1,5 @@
 
   <?php
-// Mulai output buffering (supaya header redirect bisa dijalankan sebelum output)
 ob_start();
 
 // Database configuration
