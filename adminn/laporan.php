@@ -75,8 +75,8 @@ if (isset($_GET['api']) && $_GET['api'] === 'laporan') {
     <div class="menu-item"><a href="kontak.php"><i class="fas fa-address-book"></i><span>Kelola Kontak</span></a></div>
     <div class="menu-item"><a href="testimoni.php"><i class="fas fa-comments"></i><span>Kelola Testimoni</span></a></div>
     <div class="menu-item"><a href="laporan.php" class="active"><i class="fas fa-file-alt"></i><span>Laporan</span></a></div>
-    <div class="menu-item" style="margin-top:auto;position:absolute;bottom:20px;width:100%;">
-      <a href="login.php"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
+    <div class="menu-item" style="margin-top:auto;position:absolute;bottom:20px;">
+      <a href="../user/logout.php"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
     </div>
   </div>
 

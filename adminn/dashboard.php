@@ -52,7 +52,6 @@ $adminName = htmlspecialchars($_SESSION['email']);
     <div class="menu-item"><a href="laporan.php"><i class="fas fa-file-alt"></i><span>Laporan</span></a></div>
     <div class="menu-item" style="margin-top:auto;position:absolute;bottom:20px;">
       <a href="../user/logout.php"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
-
     </div>
   </div>
 

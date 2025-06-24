@@ -118,11 +118,8 @@ $rows  = $query->fetchAll(PDO::FETCH_ASSOC);
       </a>
     </div>
     
-    <div class="menu-item" style="margin-top: auto; position: absolute; bottom: 20px; width: 100%;">
-      <a href="login.php">
-        <i class="fas fa-sign-out-alt"></i>
-        <span>Logout</span>
-      </a>
+    <div class="menu-item" style="margin-top:auto;position:absolute;bottom:20px;">
+      <a href="../user/logout.php"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
     </div>
   </div>
 
