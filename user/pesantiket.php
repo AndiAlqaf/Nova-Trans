@@ -39,7 +39,7 @@ $namaUser = $user ? $user['nama_pengguna'] : '';
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Pesan Tiket – Nova Trans</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="pesantikeet.css"/>
+  <link rel="stylesheet" href="pesantikett.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 </head>
 <body>
@@ -71,22 +71,30 @@ $namaUser = $user ? $user['nama_pengguna'] : '';
     </div>
   </nav>
 
-   <!-- Hero -->
-  <section class="hero">
-    <h1>Jelajahi Sulawesi Selatan dengan Nyaman</h1>
-    <p>Pesan tiket bus sesuai kebutuhan Anda.</p>
+  <!-- Promo “Lihat Semua Tiket” -->
+<section class="xai-ticket-promo-advanced">
+  <div class="xai-ticket-promo-advanced__bg"></div>
+  <div class="xai-ticket-promo-advanced__content">
+    <h2 class="xai-ticket-promo-advanced__title">Butuh Tiket Seketika?</h2>
+    <p class="xai-ticket-promo-advanced__desc">
+      Jelajahi semua opsi tiket bus terbaik tanpa filter—pesan dengan cepat dan nikmati perjalanan nyaman Anda!
+    </p>
+    <a href="keberangkatan.php?show_all=1" class="xai-ticket-promo-advanced__btn">
+      <i class="fas fa-bus"></i> Lihat Semua Tiket
+    </a>
+  </div>
+</section>
 
-    <!-- CTA “Lihat Semua Tiket” di dalam hero -->
-    <div class="hero-cta">
-      <a href="keberangkatan.php?show_all=1" class="btn-primary btn-lg">
-        <i class="fas fa-bus"></i> Lihat Semua Tiket
-      </a>
-    </div>
-  </section>
 
 
   <!-- Pencarian Tiket -->
-  <section class="search-box">
+<section class="search-box">
+  <div class="search-box__bg"></div>
+  <div class="search-box__container">
+    <div class="tab-menu">
+      <button class="tab-btn active" data-tab="one-way">Satu Arah</button>
+      <button class="tab-btn" data-tab="round-trip">Pulang Pergi</button>
+    </div>
     <form class="search-form" action="keberangkatan.php" method="GET">
       <div class="form-group">
         <label for="kotaAsal">Kota Asal</label>
@@ -128,7 +136,7 @@ $namaUser = $user ? $user['nama_pengguna'] : '';
           <input type="date" id="tanggalBerangkat" name="tanggal_berangkat" required>
         </div>
       </div>
-      <div class="form-group">
+      <div class="form-group round-trip-field">
         <label for="tanggalPulang">Tanggal Pulang</label>
         <div class="input-icon"><i class="fas fa-calendar-alt"></i>
           <input type="date" id="tanggalPulang" name="tanggal_pulang">
@@ -142,8 +150,8 @@ $namaUser = $user ? $user['nama_pengguna'] : '';
       </div>
       <button type="submit" class="search-btn"><i class="fas fa-search"></i> Cari Tiket</button>
     </form>
-  </section>
-
+  </div>
+</section>
   <!-- Langkah Pemesanan -->
   <section class="booking-steps">
     <div class="booking-steps-container container">
@@ -324,6 +332,20 @@ $namaUser = $user ? $user['nama_pengguna'] : '';
     window.addEventListener('popstate', function() {
       history.pushState(null, null, location.href);
     });
+
+    document.querySelectorAll('.tab-btn').forEach(button => {
+  button.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    button.classList.add('active');
+    const tab = button.getAttribute('data-tab');
+    const roundTripField = document.querySelector('.round-trip-field');
+    if (tab === 'round-trip') {
+      roundTripField.style.display = 'block';
+    } else {
+      roundTripField.style.display = 'none';
+    }
+  });
+});
   </script>
 </body>
 </html>
