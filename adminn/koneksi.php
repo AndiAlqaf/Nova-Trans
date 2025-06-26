@@ -18,7 +18,7 @@ try {
         ]
     );
 } catch (PDOException $e) {
-    // Jika koneksi gagal, hentikan script dengan pesan error
+    
     die("Koneksi database gagal: " . $e->getMessage());
 }
 ?>
