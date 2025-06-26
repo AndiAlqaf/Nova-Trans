@@ -161,7 +161,7 @@ $namaUser = $user ? $user['nama_pengguna'] : '';
 
       <div class="section-header">
         <span class="preheading">Proses Pemesanan Cepat</span>
-        <h2>Pesan tiket bus hanya dalam 3 langkah</h2>
+        <h1>Pesan tiket bus hanya dalam 3 langkah</h1>
         <p>Proses pemesanan tiket kurang dari <strong>5 menit</strong> dengan sistem yang aman dan terpercaya</p>
       </div>
 
