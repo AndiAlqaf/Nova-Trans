@@ -269,18 +269,6 @@ ob_end_flush();
     <?php endif; ?>
   </section>
 
-  <!-- Newsletter -->
-  <section class="newsletter-section">
-    <div class="newsletter-content">
-      <h3>Dapatkan Promo Menarik</h3>
-      <p>Langganan newsletter kami untuk mendapatkan info promo terbaru dan diskon khusus</p>
-      <form class="newsletter-form">
-        <input type="email" placeholder="Masukkan email Anda" required />
-        <button type="submit">Langganan</button>
-      </form>
-    </div>
-  </section>
-
   <!-- Footer -->
   <footer class="footer">
       <div class="footer-content">
