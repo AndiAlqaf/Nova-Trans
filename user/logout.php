@@ -6,6 +6,6 @@ $_SESSION = [];
 // Hancurkan session di server
 session_destroy();
 // Redirect ke halaman masuk
-header('Location: masuk.php');
+header('Location: ../index.php');
 exit;
 ?>

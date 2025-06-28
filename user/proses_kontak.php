@@ -2,8 +2,8 @@
 // Database configuration
 $host = "localhost";
 $dbname = "nova_trans";
-$username = "root";
-$password = "";
+$username = "tmj";
+$password = "databasetmj";
 ?>
 <!DOCTYPE html>
 <html lang="id">
