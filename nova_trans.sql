@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 28, 2025 at 03:38 AM
+-- Generation Time: Jun 28, 2025 at 09:05 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -41,9 +41,9 @@ CREATE TABLE `berita` (
 --
 
 INSERT INTO `berita` (`id`, `judul`, `deskripsi`, `teks_lengkap`, `gambar`, `tanggal`) VALUES
-(1, 'Nova Trans: Siap Antar Anda dengan Aman dan Nyaman', 'Ekonomi kelas hadir untuk anda agar perjalanan anda tetap nyaman dengan biaya yang hemat', 'Nova Trans adalah layanan transportasi darat yang berkomitmen memberikan kenyamanan dan efisiensi bagi para penumpang. Dengan armada bus yang modern dan fasilitas lengkap, Nova Trans menghadirkan solusi perjalanan yang aman, cepat, dan terjangkau.\r\n\r\nKami menyediakan layanan kelas ekonomi yang tetap mengutamakan kenyamanan. Setiap penumpang akan menikmati tempat duduk yang ergonomis, AC yang sejuk, serta layanan sopir profesional yang berpengalaman. Rute perjalanan kami mencakup berbagai kota besar dan destinasi wisata, menjadikan Nova Trans sebagai pilihan tepat untuk perjalanan pribadi maupun rombongan.\r\n\r\nNova Trans siap menjadi mitra perjalanan anda, kapan pun dan di mana pun.', 'Millenium Big Class.png', '2025-06-28 07:52:36'),
-(2, 'Nova Trans Executive: Perjalanan Mewah dengan Harga Terjangkau', 'Nikmati perjalanan nyaman bersama Nova Trans Executive yang dilengkapi fasilitas AC, toilet, Wi-Fi, dan snack gratis.', 'Nova Trans menghadirkan layanan kelas Executive bagi Anda yang menginginkan pengalaman perjalanan yang lebih eksklusif dan nyaman. Dirancang khusus untuk kenyamanan maksimal, bus kelas Executive Nova Trans dilengkapi dengan berbagai fasilitas modern seperti AC yang sejuk, toilet bersih, akses Wi-Fi gratis, serta snack lezat selama perjalanan.\r\n\r\nDengan interior mewah dan kursi yang dapat direbahkan, setiap penumpang dapat menikmati perjalanan panjang tanpa rasa lelah. Layanan ini sangat cocok bagi pelancong bisnis, wisatawan, maupun keluarga yang ingin bepergian dengan lebih nyaman.', 'millenium_limited.png', '2025-06-28 07:50:02'),
-(3, 'Rasakan Kenyamanan Premium Bersama Nova Trans Executive', 'Nova Trans Executive hadir dengan kenyamanan ekstra dan fasilitas premium untuk setiap perjalanan Anda.', 'Kini perjalanan jauh terasa seperti di rumah sendiri. Nova Trans Executive menawarkan layanan transportasi kelas atas yang mengutamakan kenyamanan, keamanan, dan kualitas. Bus ini dirancang khusus untuk penumpang yang menginginkan perjalanan nyaman dengan sentuhan premium.\r\n\r\nDengan AC yang sejuk, toilet bersih, serta Wi-Fi gratis yang memungkinkan Anda tetap terhubung selama perjalanan, Nova Trans Executive menjadi pilihan ideal untuk perjalanan bisnis maupun liburan. Tak hanya itu, setiap penumpang juga mendapatkan snack gratis sebagai teman perjalanan.', 'apm nag.png', '2025-06-28 07:56:29');
+(1, 'Nova Trans Siap Antar Anda dengan Aman dan Nyaman', 'Nova Trans hadir sebagai solusi transportasi darat yang aman, nyaman, dan terjangkau untuk semua kalangan.', 'Nova Trans adalah layanan transportasi darat yang berkomitmen memberikan kenyamanan dan efisiensi bagi para penumpang. Dengan armada bus yang modern dan fasilitas lengkap, Nova Trans menghadirkan solusi perjalanan yang aman, cepat, dan terjangkau.\r\n\r\nKami menyediakan layanan kelas ekonomi yang tetap mengutamakan kenyamanan. Setiap penumpang akan menikmati tempat duduk yang ergonomis, AC yang sejuk, serta layanan sopir profesional yang berpengalaman. Rute perjalanan kami mencakup berbagai kota besar dan destinasi wisata, menjadikan Nova Trans sebagai pilihan tepat untuk perjalanan pribadi maupun rombongan.\r\n\r\nNova Trans siap menjadi mitra perjalanan anda, kapan pun dan di mana pun.', 'millenium_limited.png', '2025-06-28 14:18:13'),
+(2, 'Nova Trans Siap Antar Anda dengan Aman dan Nyaman', 'Nova Trans hadir sebagai solusi transportasi darat yang aman, nyaman, dan terjangkau untuk semua kalangan.', 'Perjalanan jauh kini bukan lagi masalah. Nova Trans, perusahaan otobus terpercaya, menyediakan layanan transportasi yang mengutamakan kenyamanan dan keselamatan penumpang. Dengan dukungan armada terbaru serta kru yang profesional, Nova Trans menjadi pilihan utama bagi masyarakat yang ingin bepergian dengan tenang dan tepat waktu.\r\n\r\nTidak hanya itu, Nova Trans juga menawarkan harga tiket yang bersahabat serta berbagai fasilitas seperti reclining seat, AC, dan hiburan selama perjalanan. Jadwal keberangkatan yang fleksibel dan rute yang luas semakin mempermudah mobilitas pelanggan.\r\n\r\nNova Trans, sahabat perjalanan anda ke mana saja dan kapan saja.', 'apm nag.png', '2025-06-28 14:41:38'),
+(3, 'Rasakan Kenyamanan Premium Bersama Nova Trans Executive', 'Nova Trans Executive hadir dengan kenyamanan ekstra dan fasilitas premium untuk setiap perjalanan Anda.', 'Kini perjalanan jauh terasa seperti di rumah sendiri. Nova Trans Executive menawarkan layanan transportasi kelas atas yang mengutamakan kenyamanan, keamanan, dan kualitas. Bus ini dirancang khusus untuk penumpang yang menginginkan perjalanan nyaman dengan sentuhan premium.\r\n\r\nDengan AC yang sejuk, toilet bersih, serta Wi-Fi gratis yang memungkinkan Anda tetap terhubung selama perjalanan, Nova Trans Executive menjadi pilihan ideal untuk perjalanan bisnis maupun liburan. Tak hanya itu, setiap penumpang juga mendapatkan snack gratis sebagai teman perjalanan.', 'Millenium Big Class.png', '2025-06-28 14:54:52');
 
 -- --------------------------------------------------------
 
@@ -67,6 +67,13 @@ CREATE TABLE `booking` (
   `tanggal_pembayaran` datetime DEFAULT NULL,
   `kursi` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `booking`
+--
+
+INSERT INTO `booking` (`id_booking`, `nama_pemesan`, `no_telepon`, `email`, `tanggal_pemesanan`, `status`, `total_harga`, `created_at`, `updated_at`, `id_bus`, `id_pemesan`, `metode_pembayaran`, `tanggal_pembayaran`, `kursi`) VALUES
+(2, 'andi alqaf', '082194392833', 'aalqafwiryawan1010@gmail.com', '2025-06-28', 'Paid', 185000.00, '2025-06-28 14:48:48', '2025-06-28 06:49:07', 1, NULL, 'COD', '2025-06-28 14:48:51', '1A');
 
 -- --------------------------------------------------------
 
@@ -99,7 +106,8 @@ INSERT INTO `data_bus` (`id_bus`, `id_kendaraan`, `nama_kelas`, `kota_asal`, `te
 (2, 2, 'Executive', 'Makassar', 'Terminal Daya', 'Palopo', 'Terminal Palopo', '2025-06-14 09:00:00', '08:00:00', '2025-06-16', 'AC, Toilet, WiFi, Snack', 135000.00, 'Tersedia'),
 (3, 3, 'Ekonomi', 'Makassar', 'Terminal Daya', 'Pare-pare', 'Terminal Lumpue', '2025-06-17 09:00:00', '00:00:00', '2025-06-17', 'AC, Toilet', 100000.00, 'Tersedia'),
 (7, 4, 'Executive', 'Makassar', 'Terminal Daya', 'Toraja', 'Terminal Toraja', '2025-06-20 08:30:00', '00:00:00', '2025-06-20', 'AC, Toilet, WiFi, Snack', 140000.00, 'Tersedia'),
-(8, 5, 'Ekonomi', 'Makassar', 'Terminal Daya', 'Sidrap', 'Terminal Sidrap', '2025-06-22 03:00:00', '00:00:00', '2025-06-22', 'AC, Toilet', 120000.00, 'Tersedia');
+(8, 5, 'Ekonomi', 'Makassar', 'Terminal Daya', 'Sidrap', 'Terminal Sidrap', '2025-06-22 03:00:00', '00:00:00', '2025-06-22', 'AC', 120000.00, 'Tersedia'),
+(9, 6, 'Executive', 'Makassar', 'Terminal Daya', 'Bone', 'Terminal Bone', '2025-06-30 07:00:00', '00:00:00', '0000-00-00', 'AC, Toilet, WiFi, Snack', 150000.00, 'Tersedia');
 
 -- --------------------------------------------------------
 
@@ -163,7 +171,8 @@ INSERT INTO `kendaraan` (`id_kendaraan`, `nomor_polisi`, `jenis`, `kapasitas`, `
 (2, 'DD 1208 BN', 'Bus Besar', 30, 'tersedia', '2025-06-05', '2025-06-28'),
 (3, 'DD 1010 BK', 'Bus Sedang', 20, 'tersedia', '2025-06-10', '2025-07-10'),
 (4, 'DD 1210 AN', 'Bus Besar', 35, 'tersedia', '2025-06-20', '2025-07-20'),
-(5, 'DD 2801 BN', 'Bus Sedang', 25, 'tersedia', '2025-06-22', '2025-07-22');
+(5, 'DD 2801 BN', 'Bus Sedang', 25, 'tersedia', '2025-06-22', '2025-07-22'),
+(6, 'DD 1212 AN', 'Bus Besar', 40, 'tersedia', '2025-06-28', '2025-07-28');
 
 -- --------------------------------------------------------
 
@@ -185,8 +194,7 @@ CREATE TABLE `kontak` (
 --
 
 INSERT INTO `kontak` (`id`, `nama_lengkap`, `email`, `subjek`, `pesan`, `dikirim_pada`) VALUES
-(1, 'Al Qaf', 'aalqafwiryawan1010@gmail.com', 'Pelayanan', 'Pelayanan Nova Trans sangat ramah dan mantap, terimakasih Nova Trans', '2025-06-28 09:05:50'),
-(2, 'Wiryawan', 'wiryawan1010@gmail.com', 'BUS', 'Bus Nova Trans sangat nyaman, selama perjalanan alhamdulillah tidak ada kendala', '2025-06-28 09:06:52');
+(5, 'Andi Al Qaf', 'aalqafwiryawan1010@gmail.com', 'Pelayanan', 'Pelayanan Nova Trans sangat ramah', '2025-06-28 14:43:44');
 
 -- --------------------------------------------------------
 
@@ -357,13 +365,13 @@ ALTER TABLE `berita`
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `id_booking` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_booking` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `data_bus`
 --
 ALTER TABLE `data_bus`
-  MODIFY `id_bus` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_bus` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `data_pemesan`
@@ -381,13 +389,13 @@ ALTER TABLE `jadwal`
 -- AUTO_INCREMENT for table `kendaraan`
 --
 ALTER TABLE `kendaraan`
-  MODIFY `id_kendaraan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_kendaraan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `kontak`
 --
 ALTER TABLE `kontak`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `pembayaran`
@@ -405,7 +413,7 @@ ALTER TABLE `rute`
 -- AUTO_INCREMENT for table `testimoni`
 --
 ALTER TABLE `testimoni`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `user`

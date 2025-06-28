@@ -109,6 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             padding: 10px;
             border-radius: 4px;
         }
+        
     </style>
 </head>
 <body>
@@ -135,7 +136,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         <div class="header">
             <h1>Kelola Berita</h1>
             <div class="actions">
-                <a href="export_berita.php" class="btn btn-outline">Export</a>
                 <button class="btn btn-primary" id="addNewsBtn">Tambah Berita</button>
             </div>
         </div>

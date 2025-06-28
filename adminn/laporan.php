@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 require_once __DIR__ . '/../koneksi.php';
 
@@ -57,9 +56,10 @@ if (isset($_GET['api']) && $_GET['api'] === 'laporan') {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Laporan Transaksi – NOVA TRANS</title>
-  <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" href="laporan.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <!-- Tambahkan SheetJS untuk export Excel -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
    <div class="sidebar">
@@ -197,8 +197,11 @@ if (isset($_GET['api']) && $_GET['api'] === 'laporan') {
 
     <!-- Tabel Laporan -->
     <div class="card">
-      <div class="card-header">
+      <div class="card-header" style="display: flex; align-items: center;">
         <h2 id="report-title">Laporan Transaksi Harian</h2>
+        <button id="export-report" class="btn" style="margin-left: auto;">
+          <i class="fas fa-file-export"></i> Export ke Excel
+        </button>
       </div>
       <div class="table-responsive">
         <table>
@@ -298,12 +301,59 @@ async function updateTable(){
     }).format(income).replace('IDR','Rp');
 }
 
+// Fungsi untuk export ke Excel
+function exportToExcel() {
+  // Validasi jika data kosong
+  if (!dataCache.length) {
+    alert('Tidak ada data untuk diexport!');
+    return;
+  }
+
+  // Ambil data dari dataCache
+  const data = dataCache.map(item => ({
+    ID: item.id,
+    Tanggal: item.tanggal,
+    Pelanggan: item.pelanggan,
+    Rute: item.rute,
+    Bus: item.bus,
+    'Jumlah Tiket': item.jumlahTiket,
+    Total: item.total,
+    Status: item.status
+  }));
+
+  // Buat worksheet dari data
+  const ws = XLSX.utils.json_to_sheet(data);
+
+  // Buat workbook dan tambahkan worksheet
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Laporan Transaksi");
+
+  // Tentukan nama file berdasarkan tipe laporan
+  const tipe = document.getElementById('report-type').value;
+  let fileName = 'Laporan_Transaksi_';
+  if (tipe === 'daily') {
+    const d = new Date(document.getElementById('date-filter').value);
+    fileName += `Harian_${d.getDate()}-${d.getMonth()+1}-${d.getFullYear()}`;
+  } else {
+    const m = document.getElementById('month-filter').value;
+    const y = document.getElementById('year-select').value;
+    fileName += `Bulanan_${bulanIndo[m-1]}_${y}`;
+  }
+  fileName += '.xlsx';
+
+  // Download file Excel
+  XLSX.writeFile(wb, fileName);
+}
+
 // Event bindings
-document.getElementById('show-report')
-        .addEventListener('click', ()=>{
+document.getElementById('show-report').addEventListener('click', ()=>{
   updateTitle();
   updateTable();
 });
+
+// Bind event ke tombol export
+document.getElementById('export-report').addEventListener('click', exportToExcel);
+
 ['report-type','date-filter','month-filter','year-select','payment-status']
   .forEach(id => document.getElementById(id)
   .addEventListener('change', updateTitle));
