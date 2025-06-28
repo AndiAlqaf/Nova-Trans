@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 26, 2025 at 07:18 AM
+-- Generation Time: Jun 28, 2025 at 03:38 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -20,6 +20,30 @@ SET time_zone = "+00:00";
 --
 -- Database: `nova_trans`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `berita`
+--
+
+CREATE TABLE `berita` (
+  `id` int(11) NOT NULL,
+  `judul` varchar(255) NOT NULL,
+  `deskripsi` text NOT NULL,
+  `teks_lengkap` text NOT NULL,
+  `gambar` varchar(255) NOT NULL,
+  `tanggal` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `berita`
+--
+
+INSERT INTO `berita` (`id`, `judul`, `deskripsi`, `teks_lengkap`, `gambar`, `tanggal`) VALUES
+(1, 'Nova Trans: Siap Antar Anda dengan Aman dan Nyaman', 'Ekonomi kelas hadir untuk anda agar perjalanan anda tetap nyaman dengan biaya yang hemat', 'Nova Trans adalah layanan transportasi darat yang berkomitmen memberikan kenyamanan dan efisiensi bagi para penumpang. Dengan armada bus yang modern dan fasilitas lengkap, Nova Trans menghadirkan solusi perjalanan yang aman, cepat, dan terjangkau.\r\n\r\nKami menyediakan layanan kelas ekonomi yang tetap mengutamakan kenyamanan. Setiap penumpang akan menikmati tempat duduk yang ergonomis, AC yang sejuk, serta layanan sopir profesional yang berpengalaman. Rute perjalanan kami mencakup berbagai kota besar dan destinasi wisata, menjadikan Nova Trans sebagai pilihan tepat untuk perjalanan pribadi maupun rombongan.\r\n\r\nNova Trans siap menjadi mitra perjalanan anda, kapan pun dan di mana pun.', 'Millenium Big Class.png', '2025-06-28 07:52:36'),
+(2, 'Nova Trans Executive: Perjalanan Mewah dengan Harga Terjangkau', 'Nikmati perjalanan nyaman bersama Nova Trans Executive yang dilengkapi fasilitas AC, toilet, Wi-Fi, dan snack gratis.', 'Nova Trans menghadirkan layanan kelas Executive bagi Anda yang menginginkan pengalaman perjalanan yang lebih eksklusif dan nyaman. Dirancang khusus untuk kenyamanan maksimal, bus kelas Executive Nova Trans dilengkapi dengan berbagai fasilitas modern seperti AC yang sejuk, toilet bersih, akses Wi-Fi gratis, serta snack lezat selama perjalanan.\r\n\r\nDengan interior mewah dan kursi yang dapat direbahkan, setiap penumpang dapat menikmati perjalanan panjang tanpa rasa lelah. Layanan ini sangat cocok bagi pelancong bisnis, wisatawan, maupun keluarga yang ingin bepergian dengan lebih nyaman.', 'millenium_limited.png', '2025-06-28 07:50:02'),
+(3, 'Rasakan Kenyamanan Premium Bersama Nova Trans Executive', 'Nova Trans Executive hadir dengan kenyamanan ekstra dan fasilitas premium untuk setiap perjalanan Anda.', 'Kini perjalanan jauh terasa seperti di rumah sendiri. Nova Trans Executive menawarkan layanan transportasi kelas atas yang mengutamakan kenyamanan, keamanan, dan kualitas. Bus ini dirancang khusus untuk penumpang yang menginginkan perjalanan nyaman dengan sentuhan premium.\r\n\r\nDengan AC yang sejuk, toilet bersih, serta Wi-Fi gratis yang memungkinkan Anda tetap terhubung selama perjalanan, Nova Trans Executive menjadi pilihan ideal untuk perjalanan bisnis maupun liburan. Tak hanya itu, setiap penumpang juga mendapatkan snack gratis sebagai teman perjalanan.', 'apm nag.png', '2025-06-28 07:56:29');
 
 -- --------------------------------------------------------
 
@@ -43,13 +67,6 @@ CREATE TABLE `booking` (
   `tanggal_pembayaran` datetime DEFAULT NULL,
   `kursi` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `booking`
---
-
-INSERT INTO `booking` (`id_booking`, `nama_pemesan`, `no_telepon`, `email`, `tanggal_pemesanan`, `status`, `total_harga`, `created_at`, `updated_at`, `id_bus`, `id_pemesan`, `metode_pembayaran`, `tanggal_pembayaran`, `kursi`) VALUES
-(3, 'wiryawan', '082194392832', 'aalqafwiryawan1010@gmail.com', '2025-06-26', '', 140000.00, '2025-06-26 10:20:13', '2025-06-26 02:20:35', 2, NULL, 'COD', '2025-06-26 10:20:35', '1C');
 
 -- --------------------------------------------------------
 
@@ -82,7 +99,7 @@ INSERT INTO `data_bus` (`id_bus`, `id_kendaraan`, `nama_kelas`, `kota_asal`, `te
 (2, 2, 'Executive', 'Makassar', 'Terminal Daya', 'Palopo', 'Terminal Palopo', '2025-06-14 09:00:00', '08:00:00', '2025-06-16', 'AC, Toilet, WiFi, Snack', 135000.00, 'Tersedia'),
 (3, 3, 'Ekonomi', 'Makassar', 'Terminal Daya', 'Pare-pare', 'Terminal Lumpue', '2025-06-17 09:00:00', '00:00:00', '2025-06-17', 'AC, Toilet', 100000.00, 'Tersedia'),
 (7, 4, 'Executive', 'Makassar', 'Terminal Daya', 'Toraja', 'Terminal Toraja', '2025-06-20 08:30:00', '00:00:00', '2025-06-20', 'AC, Toilet, WiFi, Snack', 140000.00, 'Tersedia'),
-(8, 5, 'Ekonomi', 'Makassar', 'Terminal Daya', 'Sidrap', 'Terminal Sidrap', '2025-06-22 03:00:00', '00:00:00', '2025-06-22', 'AC', 120000.00, 'Tersedia');
+(8, 5, 'Ekonomi', 'Makassar', 'Terminal Daya', 'Sidrap', 'Terminal Sidrap', '2025-06-22 03:00:00', '00:00:00', '2025-06-22', 'AC, Toilet', 120000.00, 'Tersedia');
 
 -- --------------------------------------------------------
 
@@ -162,6 +179,14 @@ CREATE TABLE `kontak` (
   `pesan` text NOT NULL,
   `dikirim_pada` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `kontak`
+--
+
+INSERT INTO `kontak` (`id`, `nama_lengkap`, `email`, `subjek`, `pesan`, `dikirim_pada`) VALUES
+(1, 'Al Qaf', 'aalqafwiryawan1010@gmail.com', 'Pelayanan', 'Pelayanan Nova Trans sangat ramah dan mantap, terimakasih Nova Trans', '2025-06-28 09:05:50'),
+(2, 'Wiryawan', 'wiryawan1010@gmail.com', 'BUS', 'Bus Nova Trans sangat nyaman, selama perjalanan alhamdulillah tidak ada kendala', '2025-06-28 09:06:52');
 
 -- --------------------------------------------------------
 
@@ -243,6 +268,12 @@ INSERT INTO `user` (`id_pengguna`, `email`, `password`, `role`, `created_at`, `n
 --
 
 --
+-- Indexes for table `berita`
+--
+ALTER TABLE `berita`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `booking`
 --
 ALTER TABLE `booking`
@@ -317,10 +348,16 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT for table `berita`
+--
+ALTER TABLE `berita`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `id_booking` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_booking` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `data_bus`
@@ -350,7 +387,7 @@ ALTER TABLE `kendaraan`
 -- AUTO_INCREMENT for table `kontak`
 --
 ALTER TABLE `kontak`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `pembayaran`
@@ -368,7 +405,7 @@ ALTER TABLE `rute`
 -- AUTO_INCREMENT for table `testimoni`
 --
 ALTER TABLE `testimoni`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `user`

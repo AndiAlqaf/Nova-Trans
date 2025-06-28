@@ -1,20 +1,6 @@
 <?php
 session_start();
-
-// Database config
-$host = "localhost";
-$dbname = "nova_trans";
-$username = "root";
-$password = "";
-
-try {
-    $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
-    die("Connection failed: " . $e->getMessage());
-}
-
-$error = "";
+require_once __DIR__ . '/../koneksi.php';
 
 // Ambil booking ID dan data dari session / GET
 if (!isset($_SESSION['booking_data']) || !isset($_SESSION['booking_data']['booking_id'])) {
@@ -43,7 +29,7 @@ $booking_id = $booking['booking_id'];
 // Ambil data booking lengkap jika perlu
 if (empty($booking['nama_pemesan']) || empty($booking['no_telepon']) || empty($booking['email'])) {
     try {
-        $stmt = $conn->prepare("
+        $stmt = $koneksi->prepare("
             SELECT * 
               FROM booking 
              WHERE id_booking = :booking_id 
@@ -64,7 +50,7 @@ if (empty($booking['nama_pemesan']) || empty($booking['no_telepon']) || empty($b
 // Ambil data bus
 $id_bus = $booking['id_bus'] ?? '';
 try {
-    $stmt = $conn->prepare("SELECT * FROM data_bus WHERE id_bus = :id_bus");
+    $stmt = $koneksi->prepare("SELECT * FROM data_bus WHERE id_bus = :id_bus");
     $stmt->execute([':id_bus' => $id_bus]);
     $bus = $stmt->fetch(PDO::FETCH_ASSOC);
     if (!$bus) {
@@ -84,10 +70,10 @@ $waktu_tiba = $waktu_berangkat->format('H:i');
 // Proses konfirmasi pembayaran
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_payment'])) {
     try {
-        $conn->beginTransaction();
+        $koneksi->beginTransaction();
 
         // Cari entry temporary yang dibuat di pilihkursi.php
-        $stmt_select = $conn->prepare("
+        $stmt_select = $koneksi->prepare("
             SELECT * FROM booking 
             WHERE id_booking = :booking_id 
             AND status = 'Pending' 
@@ -98,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_payment'])) {
 
         if ($existing_booking) {
             // Ubah status dan data booking menjadi final
-          $stmt = $conn->prepare("
+          $stmt = $koneksi->prepare("
                 UPDATE booking SET 
                 status = 'Confirmed',
                 metode_pembayaran    = :metode_pembayaran,
@@ -115,16 +101,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_payment'])) {
                 ':booking_id'        => $booking_id,
             ]);
 
-            $conn->commit();
+            $koneksi->commit();
             unset($_SESSION['booking_data']);
             header("Location: cetaktiket.php?booking_id=" . urlencode($booking_id));
             exit();
         } else {
-            $conn->rollback();
+            $koneksi->rollback();
             $error = "Booking tidak ditemukan atau sudah dikonfirmasi.";
         }
     } catch(PDOException $e) {
-        $conn->rollback();
+        $koneksi->rollback();
         $error = "Gagal konfirmasi pembayaran: " . $e->getMessage();
     }
 }

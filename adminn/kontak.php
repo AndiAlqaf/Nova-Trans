@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'koneksi.php';
+require_once __DIR__ . '/../koneksi.php';
 
 // ========== HANDLE CREATE CONTACT ==========
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'add') {
@@ -73,6 +73,7 @@ $total    = count($contacts);
     <div class="menu-item"><a href="booking.php"><i class="fas fa-ticket-alt"></i><span>Kelola Booking</span></a></div>
     <div class="menu-item"><a href="kontak.php" class="active"><i class="fas fa-address-book"></i><span>Kelola Kontak</span></a></div>
     <div class="menu-item"><a href="testimoni.php"><i class="fas fa-comments"></i><span>Kelola Testimoni</span></a></div>
+    <div class="menu-item"><a href="kelola_berita.php"><i class="fas fa-newspaper"></i><span>Kelola Berita</span></a></div>
     <div class="menu-item"><a href="laporan.php"><i class="fas fa-file-alt"></i><span>Laporan</span></a></div>
     <div class="menu-item" style="margin-top:auto;position:absolute;bottom:20px;">
       <a href="../user/logout.php"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>

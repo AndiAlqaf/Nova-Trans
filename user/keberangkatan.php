@@ -1,5 +1,5 @@
 <?php
-include 'koneksi.php';
+require_once __DIR__ . '/../koneksi.php';
 
 $kota_asal = $_GET['kota_asal'] ?? '';
 $kota_tujuan = $_GET['kota_tujuan'] ?? '';
@@ -9,7 +9,7 @@ $tanggal_pulang = $_GET['tanggal_pulang'] ?? '';
 
 // Query pencarian
 $query = "SELECT * FROM data_bus WHERE kota_asal LIKE :asal AND kota_tujuan LIKE :tujuan";
-$stmt = $conn->prepare($query);
+$stmt = $koneksi->prepare($query);
 $stmt->execute([
     ':asal' => "%$kota_asal%",
     ':tujuan' => "%$kota_tujuan%"
@@ -24,7 +24,7 @@ $hasil = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <title>Pilih Bus - Nova Trans</title>
     <link rel="stylesheet" href="keberangkatan.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
-    <link rel="stylesheet" href="keberangkatan.css"/>
+    <link rel="stylesheet" href="keberangkatann.css"/>
 </head>
 <body>
     <!-- Navbar -->

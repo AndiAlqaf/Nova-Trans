@@ -5,7 +5,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 session_start();
-include 'koneksi.php';  // Asumsikan koneksi PDO $conn
+require_once __DIR__ . '/../koneksi.php';  // Asumsikan koneksi PDO $koneksi
 
 // 1. Baca parameter dari GET atau fallback ke SESSION
 $id_bus     = $_GET['id_bus']      ?? ($_SESSION['last_booking']['id_bus']     ?? null);
@@ -44,7 +44,7 @@ $selectedSeats = array_filter(array_map('trim', explode(',', $kursi)), fn($v)=>$
 
 // 6. Ambil data bus
 try {
-    $stmt = $conn->prepare("SELECT * FROM data_bus WHERE id_bus = :bus");
+    $stmt = $koneksi->prepare("SELECT * FROM data_bus WHERE id_bus = :bus");
     $stmt->execute([':bus'=>$id_bus]);
     $bus = $stmt->fetch(PDO::FETCH_ASSOC);
     if (!$bus) die("Data bus tidak ditemukan.");
@@ -89,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     VALUES
                        (:bus, :tgl, :kursi, :total,
                         :nama, :telp, :email, 'Pending', NOW())";
-            $ins = $conn->prepare($sql);
+            $ins = $koneksi->prepare($sql);
             $ins->execute([
                 ':bus'   => $id_bus,
                 ':tgl'   => $tanggal,
@@ -101,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ]);
 
             // 9.b Ambil booking_id yang baru saja di INSERT
-            $booking_id = $conn->lastInsertId();
+            $booking_id = $koneksi->lastInsertId();
 
             // 9.c Hapus semua ghost Temporary entries untuk kursi ini
             // Persiapkan parameter untuk IN(...)
@@ -120,7 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                    AND tanggal_pemesanan = :tgl
                    AND kursi IN (" . implode(',', $inPlaceholders) . ")
             ";
-            $deleteStmt = $conn->prepare($deleteSql);
+            $deleteStmt = $koneksi->prepare($deleteSql);
             // gabungkan semua parameter
             $deleteStmt->execute(array_merge([
                 ':bus' => $id_bus,
@@ -141,9 +141,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// 4. Ambil nama pengguna dari tabel `user`
+// 4. Ambil nama pengguna dari tabel user
 $userId = $_SESSION['user_id'];
-$stmt = $conn->prepare("SELECT nama_pengguna FROM user WHERE id_pengguna = :id");
+$stmt = $koneksi->prepare("SELECT nama_pengguna FROM user WHERE id_pengguna = :id");
 $stmt->execute([':id' => $userId]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 $namaUser = $user ? $user['nama_pengguna'] : '';
@@ -155,7 +155,7 @@ $namaUser = $user ? $user['nama_pengguna'] : '';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Penumpang - Nova Trans</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="datapemesann.css">
+    <link rel="stylesheet" href="datapemesan.css">
 </head>
 <body>
   <nav class="navbar">

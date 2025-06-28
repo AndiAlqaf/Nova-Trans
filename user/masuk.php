@@ -1,15 +1,14 @@
 <?php
-// masuk.php – Login Nova Trans
+// user/masuk.php – Login Nova Trans
+require_once __DIR__ . '/../koneksi.php';
 
-// 1. Cegah browser cache agar form selalu di-reload
+// cegah browser cache agar form selalu di-reload
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
-// 2. Mulai session & cek apakah sudah login
 session_start();
 if (isset($_SESSION['user_id'])) {
-    // Jika sudah login, langsung redirect sesuai role
     if (strtolower($_SESSION['role']) === 'admin') {
         header('Location: ../adminn/dashboard.php');
     } else {
@@ -18,23 +17,7 @@ if (isset($_SESSION['user_id'])) {
     exit;
 }
 
-// 3. Konfigurasi database
-$host     = "localhost";
-$dbname   = "nova_trans";
-$username = "root";
-$password = "";
-
-// 4. Koneksi PDO
-try {
-    $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
-    die("Connection failed: " . $e->getMessage());
-}
-
 $error = "";
-
-// 5. Proses login
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email    = trim($_POST["email"]    ?? '');
     $password = trim($_POST["password"] ?? '');
@@ -42,22 +25,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($email === '' || $password === '') {
         $error = "Email dan password harus diisi.";
     } else {
-        $stmt = $conn->prepare("SELECT * FROM user WHERE email = ?");
-        $stmt->execute([$email]);
+        $stmt = $koneksi->prepare("SELECT * FROM `user` WHERE email = :email");
+        $stmt->execute([':email' => $email]);
+        
         if ($stmt->rowCount() > 0) {
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            $user = $stmt->fetch();
             if (password_verify($password, $user["password"])) {
-                // Sukses: set session
                 $_SESSION["user_id"] = $user["id_pengguna"];
                 $_SESSION["email"]   = $user["email"];
                 $_SESSION["role"]    = $user["role"];
-                // Redirect
+                
                 if (strtolower($user["role"]) === "admin") {
-                    echo "<script>location.replace('../adminn/dashboard.php');</script>";
+                    header('Location: ../adminn/dashboard.php');
                 } else {
-                    echo "<script>location.replace('pesantiket.php');</script>";
+                    header('Location: pesantiket.php');
                 }
-                exit();
+                exit;
             } else {
                 $error = "Password tidak valid.";
             }

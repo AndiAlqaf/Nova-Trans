@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "koneksi.php";
+require_once __DIR__ . '/../koneksi.php';
 
 // Handle Create
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add') {
@@ -71,14 +71,16 @@ $query = $koneksi->query("SELECT * FROM user ORDER BY created_at DESC");
     <div class="menu-item"><a href="data_regist.php" class="active"><i class="fas fa-user-cog"></i><span>Data Registrasi</span></a></div>
     <div class="menu-item"><a href="data_bus.php"><i class="fas fa-database"></i><span>Data Bus</span></a></div>
      <div class="menu-item"><a href="kelola_kendaraan.php"><i class="fas fa-bus"></i><span>Kelola Kendaraan</span></a></div>
-    <div class="menu-item"><a href="booking.php" ><i class="fas fa-ticket-alt"></i><span>Kelola Booking</span></a></div>   
+    <div class="menu-item"><a href="booking.php"><i class="fas fa-ticket-alt"></i><span>Kelola Booking</span></a></div>
     <div class="menu-item"><a href="kontak.php"><i class="fas fa-address-book"></i><span>Kelola Kontak</span></a></div>
     <div class="menu-item"><a href="testimoni.php"><i class="fas fa-comments"></i><span>Kelola Testimoni</span></a></div>
+    <div class="menu-item"><a href="kelola_berita.php"><i class="fas fa-newspaper"></i><span>Kelola Berita</span></a></div>
     <div class="menu-item"><a href="laporan.php"><i class="fas fa-file-alt"></i><span>Laporan</span></a></div>
-   <div class="menu-item" style="margin-top:auto;position:absolute;bottom:20px;">
+    <div class="menu-item" style="margin-top:auto;position:absolute;bottom:20px;">
       <a href="../user/logout.php"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
     </div>
-    
+  </div>
+
   <div class="main">
     <div class="header">
       <h1>Kelola Pengguna</h1>
@@ -179,7 +181,7 @@ $query = $koneksi->query("SELECT * FROM user ORDER BY created_at DESC");
     // Edit
     document.querySelectorAll('.btn-edit').forEach(btn=>btn.addEventListener('click', ()=>{
       const id=btn.dataset.id;
-      const row=document.querySelector(`tr[data-user-id="${id}"]`);
+      const row=document.querySelector(tr[data-user-id="${id}"]);
       document.getElementById('username').value=row.querySelector('.user-name').textContent;
       document.getElementById('email').value=row.querySelector('.user-email').textContent;
       document.getElementById('phone').value=row.cells[2].textContent;
@@ -207,7 +209,7 @@ $query = $koneksi->query("SELECT * FROM user ORDER BY created_at DESC");
     confirmDeleteBtn.addEventListener('click', ()=>{
       const id=document.getElementById('deleteUserId').value;
       const f=document.createElement('form'); f.method='post'; f.action='data_regist.php';
-      f.innerHTML=`<input type="hidden" name="action" value="delete"><input type="hidden" name="user_id" value="${id}">`;
+      f.innerHTML=<input type="hidden" name="action" value="delete"><input type="hidden" name="user_id" value="${id}">;
       document.body.appendChild(f); f.submit();
     });
 

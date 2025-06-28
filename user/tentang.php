@@ -1,19 +1,5 @@
 <?php
-// Database configuration
-$host = "localhost";
-$dbname = "nova_trans";
-$username = "root";
-$password = "";
-
-// Establish database connection
-try {
-    $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
-    die("Connection failed: " . $e->getMessage());
-}
-$error = "";
-$success = "";
+require_once __DIR__ . '/../koneksi.php';
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -25,7 +11,7 @@ $success = "";
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="tentang.css" />
+    <link rel="stylesheet" href="tentanng.css" />
   </head>
   <!-- Font Awesome CDN -->
 <link
@@ -33,54 +19,46 @@ $success = "";
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
 />
   <body>
-     <!-- Navbar -->
-    <nav class="navbar">
-      <div class="logo-mobile-wrap">
-        <a href="cetaktiket.php" class="logo">
-          <img src="Gambar/LOGO.png" alt="Logo Nova Trans" />
-        </a>
-        <button class="mobile-menu-btn">
-          <i class="fas fa-bars"></i>
-        </button>
-      </div>
-      <div class="nav-links">
-        <a href="pesantiket.php"><i class="fas fa-ticket-alt"></i> Pesan Tiket</a>
-        <a href="tentang.php"><i class="fas fa-info-circle"></i> Tentang</a>
-        <a href="outlet.php"><i class="fas fa-store"></i> Outlet</a>
-        <a href="kontak.php"><i class="fas fa-phone"></i> Kontak</a>
-        <a href="blog.php"><i class="fas fa-newspaper"></i> Blog</a>
-      </div>
-      <div class="auth-buttons">
+<!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo-mobile-wrap">
+      <a href="pesantiket.php" class="logo">
+        <img src="Gambar/LOGO.png" alt="Logo Nova Trans"/>
+      </a>
+    </div>
+    <div class="nav-links">
+      <a href="pesantiket.php"><i class="fas fa-ticket-alt"></i> Pesan Tiket</a>
+      <a href="tentang.php"><i class="fas fa-info-circle"></i> Tentang</a>
+      <a href="outlet.php"><i class="fas fa-store"></i> Outlet</a>
+      <a href="kontak.php"><i class="fas fa-phone"></i> Kontak</a>
+      <a href="blog.php"><i class="fas fa-newspaper"></i> Blog</a>
+    </div>
+    <div class="auth-buttons">
       <a href="logout.php"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
     </div>
-    </nav>
+  </nav>
+
+    <header class="header">
+        <div class="container">
+            <h1>Tentang Kami</h1>
+            <p>Solusi Transportasi Terbaik Anda</p>
+        </div>
+    </header>
 
     <!-- MAIN CONTENT -->
+    
     <div class="container">
-      <div class="image-section">
-        <img src="Gambar/visual_1.png" alt="Ilustrasi penumpang ANS bus" />
-      </div>
-      <div class="content-section">
-        <h1>Apa itu Nova Trans?</h1>
-        <p>
-          Sejak berdiri pada tahun 2025, Bus Nova Trans telah menjadi pilihan
-          utama perjalanan darat untuk
-          <span class="highlight">rute Makassar-Luwu Timur</span>. Kami menawarkan
-          berbagai kelas bus, mulai dari
-          <span class="bus-classes"
-            >Executive Big Class, Ekonomi Class, dan Slepper Class
-            Limited</span
-          >, yang dirancang untuk memberikan kenyamanan dan kemewahan dalam
-          setiap perjalanan.
-        </p>
-        <p>
-          Dengan armada yang baru, kami berkomitmen menghadirkan pengalaman
-          berkendara yang aman, nyaman, dan terjangkau bagi seluruh penumpang
-          kami. Bus Nova Trans siap mengantarkan Anda dengan layanan terbaik.
-        </p>
-      </div>
+        <section class="about-section">
+            <div class="about-image">
+                <img src="Gambar/LOGO.png" alt="Nova Trans Bus">
+            </div>
+            <div class="about-content">
+                <h2>Apa itu Nova Trans?</h2>
+                <p>Sejak berdiri pada tahun 2025, Bus Nova Trans telah menjadi pilihan utama untuk perjalanan darat berkelas. Kami menawarkan berbagai <span class="highlight">bus kelas</span> seperti <span class="bus-classes">Ekonomi Class, Sleeper Class Limited, dan dirancang untuk memberikan kenyamanan dan keamanan yang optimal</span> dalam setiap perjalanan.</p>
+                <p>Dengan armada yang terawat, kami berkomitmen untuk memberikan pelayanan terbaik, menjaga waktu kedatangan, dan memastikan perjalanan Anda aman, nyaman, dan terjangkau bagi seluruh penumpang kami. Bus Nova Trans siap melayani Anda dengan berbagai rute populer.</p>
+            </div>
+        </section>
     </div>
-
    <!-- Footer -->
     <footer class="footer">
       <div class="footer-content">

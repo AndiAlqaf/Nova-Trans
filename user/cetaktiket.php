@@ -1,15 +1,5 @@
 <?php
-// Koneksi database
-$host = "localhost";
-$dbname = "nova_trans";
-$username = "root";
-$password = "";
-try {
-    $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
-    die("Koneksi gagal: " . $e->getMessage());
-}
+require_once __DIR__ . '/../koneksi.php';
 
 // Ambil ID Booking dari URL
 $booking_id = $_GET['booking_id'] ?? '';
@@ -18,7 +8,7 @@ if (!$booking_id) {
 }
 
 // Ambil data booking
-$stmt = $conn->prepare("SELECT * FROM booking WHERE id_booking = :id");
+$stmt = $koneksi->prepare("SELECT * FROM booking WHERE id_booking = :id");
 $stmt->execute([':id' => $booking_id]);
 $booking = $stmt->fetch(PDO::FETCH_ASSOC);
 if (!$booking) {
@@ -26,7 +16,7 @@ if (!$booking) {
 }
 
 // Ambil data bus
-$stmt = $conn->prepare("SELECT * FROM data_bus WHERE id_bus = :id_bus");
+$stmt = $koneksi->prepare("SELECT * FROM data_bus WHERE id_bus = :id_bus");
 $stmt->execute([':id_bus' => $booking['id_bus']]);
 $bus = $stmt->fetch(PDO::FETCH_ASSOC);
 if (!$bus) {

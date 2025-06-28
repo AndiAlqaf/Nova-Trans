@@ -17,8 +17,12 @@ try {
             PDO::ATTR_EMULATE_PREPARES   => false,
         ]
     );
+      $pdo = $koneksi;
+      
 } catch (PDOException $e) {
     
     die("Koneksi database gagal: " . $e->getMessage());
 }
+
+
 ?>

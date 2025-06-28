@@ -1,7 +1,7 @@
 <?php
 // daftar.php — Halaman Registrasi Nova Trans
 session_start();
-include 'koneksi.php';
+require_once __DIR__ . '/../koneksi.php';
 $error = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

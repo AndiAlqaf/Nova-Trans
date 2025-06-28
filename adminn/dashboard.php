@@ -1,6 +1,6 @@
 <?php
 // dashboard.php – Admin Dashboard NOVA TRANS
-
+require_once __DIR__ . '/../koneksi.php';
 // 1. Cegah browser cache
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
@@ -11,18 +11,6 @@ session_start();
 if (!isset($_SESSION['user_id']) || strtolower($_SESSION['role'] ?? '') !== 'admin') {
     header('Location: ../masuk.php');
     exit;
-}
-
-// 3. Koneksi DB (sesuaikan path jika perlu)
-$host = "localhost";
-$dbname = "nova_trans";
-$username = "root";
-$password = "";
-try {
-    $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
-    die("Connection failed: " . $e->getMessage());
 }
 
 $adminName = htmlspecialchars($_SESSION['email']);
@@ -48,7 +36,8 @@ $adminName = htmlspecialchars($_SESSION['email']);
     <div class="menu-item"><a href="kelola_kendaraan.php"><i class="fas fa-bus"></i><span>Kelola Kendaraan</span></a></div>
     <div class="menu-item"><a href="booking.php"><i class="fas fa-ticket-alt"></i><span>Kelola Booking</span></a></div>
     <div class="menu-item"><a href="kontak.php"><i class="fas fa-address-book"></i><span>Kelola Kontak</span></a></div>
-        <div class="menu-item"><a href="testimoni.php"><i class="fas fa-comments"></i><span>Kelola Testimoni</span></a></div>
+    <div class="menu-item"><a href="testimoni.php"><i class="fas fa-comments"></i><span>Kelola Testimoni</span></a></div>
+    <div class="menu-item"><a href="kelola_berita.php"><i class="fas fa-newspaper"></i><span>Kelola Berita</span></a></div>
     <div class="menu-item"><a href="laporan.php"><i class="fas fa-file-alt"></i><span>Laporan</span></a></div>
     <div class="menu-item" style="margin-top:auto;position:absolute;bottom:20px;">
       <a href="../user/logout.php"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
@@ -73,21 +62,21 @@ $adminName = htmlspecialchars($_SESSION['email']);
       <div class="stat-card">
         <i class="fas fa-ticket-alt stat-icon"></i>
         <div class="stat-info">
-          <h3><?= $conn->query("SELECT COUNT(*) FROM booking")->fetchColumn() ?></h3>
+          <h3><?= $koneksi->query("SELECT COUNT(*) FROM booking")->fetchColumn() ?></h3>
           <p>Total Booking</p>
         </div>
       </div>
       <div class="stat-card">
         <i class="fas fa-bus stat-icon"></i>
         <div class="stat-info">
-          <h3><?= $conn->query("SELECT COUNT(*) FROM data_bus WHERE status='Tersedia'")->fetchColumn() ?></h3>
+          <h3><?= $koneksi->query("SELECT COUNT(*) FROM data_bus WHERE status='Tersedia'")->fetchColumn() ?></h3>
           <p>Bus Tersedia</p>
         </div>
       </div>
       <div class="stat-card">
         <i class="fas fa-user stat-icon"></i>
         <div class="stat-info">
-          <h3><?= $conn->query("SELECT COUNT(*) FROM user")->fetchColumn() ?></h3>
+          <h3><?= $koneksi->query("SELECT COUNT(*) FROM user")->fetchColumn() ?></h3>
           <p>Pengguna Terdaftar</p>
         </div>
       </div>

@@ -1,43 +1,83 @@
 <?php
-// Proses AJAX dan koneksi database
-$host = "localhost";
-$dbname = "nova_trans";
-$username = "root";
-$password = "";
-
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    http_response_code(500);
-    echo json_encode(['success' => false, 'message' => 'Koneksi database gagal: ' . $e->getMessage()]);
-    exit;
+// Cek apakah file koneksi ada
+$koneksi_file = __DIR__ . '/../koneksi.php';
+if (!file_exists($koneksi_file)) {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        header('Content-Type: application/json');
+        echo json_encode(['success' => false, 'message' => 'File koneksi database tidak ditemukan.']);
+        exit;
+    }
+    die('File koneksi database tidak ditemukan di: ' . $koneksi_file);
 }
+
+require_once $koneksi_file;
 
 // Jika request POST, simpan data
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header('Content-Type: application/json');
+    
+    // Debug: Log semua data POST yang diterima
+    error_log("POST Data: " . print_r($_POST, true));
+    
     $nama   = trim($_POST['nama'] ?? '');
     $email  = trim($_POST['email'] ?? '');
     $subjek = trim($_POST['subjek'] ?? '');
     $pesan  = trim($_POST['pesan'] ?? '');
 
-    if ($nama === '' || $email === '' || $subjek === '' || $pesan === '') {
+    // Validasi input
+    if (empty($nama) || empty($email) || empty($subjek) || empty($pesan)) {
         echo json_encode(['success' => false, 'message' => 'Semua kolom wajib diisi.']);
         exit;
     }
     
+    // Validasi email
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo json_encode(['success' => false, 'message' => 'Format email tidak valid.']);
+        exit;
+    }
+    
     try {
-        $stmt = $pdo->prepare("INSERT INTO kontak (nama_lengkap, email, subjek, pesan) VALUES (:nama, :email, :subjek, :pesan)");
-        $stmt->execute([
+        // Cek apakah variabel $koneksi tersedia (sesuai dengan nama di koneksi.php)
+        if (!isset($koneksi) || !$koneksi instanceof PDO) {
+            throw new Exception("Koneksi database tidak tersedia");
+        }
+        
+        // Test koneksi dengan query sederhana
+        $test = $koneksi->query("SELECT 1");
+        if (!$test) {
+            throw new Exception("Database tidak dapat diakses");
+        }
+        
+        // Debug: Log query yang akan dijalankan
+        error_log("Executing query: INSERT INTO kontak (nama_lengkap, email, subjek, pesan) VALUES ($nama, $email, $subjek, $pesan)");
+        
+        // Cek apakah tabel kontak ada
+        $check_table = $koneksi->query("SHOW TABLES LIKE 'kontak'");
+        if ($check_table->rowCount() == 0) {
+            throw new Exception("Tabel 'kontak' tidak ditemukan dalam database");
+        }
+        
+        // Prepare dan execute query
+        $stmt = $koneksi->prepare("INSERT INTO kontak (nama_lengkap, email, subjek, pesan) VALUES (:nama, :email, :subjek, :pesan)");
+        $result = $stmt->execute([
             ':nama'   => $nama,
             ':email'  => $email,
             ':subjek' => $subjek,
             ':pesan'  => $pesan
         ]);
-        echo json_encode(['success' => true, 'message' => 'Pesan berhasil dikirim. Terima kasih!']);
+        
+        if ($result) {
+            echo json_encode(['success' => true, 'message' => 'Pesan berhasil dikirim. Terima kasih!']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Gagal menyimpan data ke database.']);
+        }
+        
     } catch (PDOException $e) {
+        error_log("Database Error: " . $e->getMessage());
         echo json_encode(['success' => false, 'message' => 'Gagal menyimpan data: ' . $e->getMessage()]);
+    } catch (Exception $e) {
+        error_log("General Error: " . $e->getMessage());
+        echo json_encode(['success' => false, 'message' => 'Terjadi kesalahan: ' . $e->getMessage()]);
     }
     exit;
 }
@@ -50,13 +90,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kontak Kami - Nova Trans</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="kontak.css" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+      /* Alert styles */
+      .alert {
+        padding: 15px;
+        margin: 20px 0;
+        border-radius: 5px;
+        font-weight: 600;
+        animation: slideIn 0.3s ease-out;
+      }
+      .alert.success {
+        background-color: #d4edda;
+        border: 1px solid #c3e6cb;
+        color: #155724;
+      }
+      .alert.error {
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+        color: #721c24;
+      }
+      .loading {
+        opacity: 0.6;
+        pointer-events: none;
+      }
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
   </head>
   <body>
-    <!-- Navbar dan konten sama seperti sebelumnya -->
-   <!-- Navbar -->
+    <!-- Navbar -->
     <nav class="navbar">
       <div class="logo-mobile-wrap">
         <a href="pesantiket.php" class="logo">
@@ -71,31 +144,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <a href="blog.php"><i class="fas fa-newspaper"></i> Blog</a>
       </div>
       <div class="auth-buttons">
-      <a href="logout.php"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
-    </div>
+        <a href="logout.php"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
+      </div>
     </nav>
+    
     <div class="main-content">
       <div class="contact-wrapper">
         <div class="contact-form-section">
           <h2>Kirim Pesan Anda</h2>
           <form id="formKontak">
             <div class="form-group">
-              <label for="nama">Nama Lengkap</label>
+              <label for="nama">Nama Lengkap <span style="color: red;">*</span></label>
               <input type="text" id="nama" name="nama" required />
             </div>
             <div class="form-group">
-              <label for="email">Alamat Email</label>
+              <label for="email">Alamat Email <span style="color: red;">*</span></label>
               <input type="email" id="email" name="email" required />
             </div>
             <div class="form-group">
-              <label for="subjek">Subjek</label>
+              <label for="subjek">Subjek <span style="color: red;">*</span></label>
               <input type="text" id="subjek" name="subjek" required />
             </div>
             <div class="form-group">
-              <label for="pesan">Pesan</label>
+              <label for="pesan">Pesan <span style="color: red;">*</span></label>
               <textarea id="pesan" name="pesan" rows="5" required></textarea>
             </div>
-            <button type="submit" class="btn-submit">Kirim Pesan</button>
+            <button type="submit" class="btn-submit" id="btnSubmit">
+              <i class="fas fa-paper-plane"></i> Kirim Pesan
+            </button>
           </form>
           <div id="form-response"></div>
         </div>
@@ -119,8 +195,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <iframe src="https://www.google.com/maps/embed?..." width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
           </div>
         </div>
-      </div>
-    </div>
       </div>
     </div>
 
@@ -167,12 +241,68 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $(function() {
         $('#formKontak').on('submit', function(e) {
           e.preventDefault();
+          
+          // Clear previous response
           $('#form-response').html('');
-          $.post('', $(this).serialize(), function(res) {
-            const cls = res.success ? 'success' : 'error';
-            $('#form-response').html(`<div class="alert ${cls}">${res.message}</div>`);
-            if (res.success) { $('#formKontak')[0].reset(); }
-          }, 'json');
+          
+          // Show loading state
+          $('#btnSubmit').html('<i class="fas fa-spinner fa-spin"></i> Mengirim...').addClass('loading');
+          
+          // Get form data
+          var formData = $(this).serialize();
+          
+          // Debug: Log data yang akan dikirim
+          console.log('Sending data:', formData);
+          
+          // Send AJAX request
+          $.ajax({
+            url: '', // Send to same page
+            type: 'POST',
+            data: formData,
+            dataType: 'json',
+            timeout: 30000, // 30 second timeout
+            success: function(res) {
+              console.log('Response:', res);
+              const cls = res.success ? 'success' : 'error';
+              $('#form-response').html(`<div class="alert ${cls}">${res.message}</div>`);
+              
+              if (res.success) { 
+                $('#formKontak')[0].reset(); 
+                // Auto hide success message after 5 seconds
+                setTimeout(function() {
+                  $('#form-response .alert.success').fadeOut();
+                }, 5000);
+              }
+              
+              // Reset button
+              $('#btnSubmit').html('<i class="fas fa-paper-plane"></i> Kirim Pesan').removeClass('loading');
+            },
+            error: function(xhr, status, error) {
+              console.error('AJAX Error:', error);
+              console.error('Status:', status);
+              console.error('Response Text:', xhr.responseText);
+              
+              let errorMsg = 'Terjadi kesalahan saat mengirim pesan.';
+              
+              if (status === 'timeout') {
+                errorMsg = 'Koneksi timeout. Silakan coba lagi.';
+              } else if (xhr.status === 0) {
+                errorMsg = 'Tidak ada koneksi internet.';
+              } else if (xhr.status >= 500) {
+                errorMsg = 'Terjadi kesalahan server. Silakan coba lagi.';
+              }
+              
+              $('#form-response').html(`<div class="alert error">${errorMsg}</div>`);
+              $('#btnSubmit').html('<i class="fas fa-paper-plane"></i> Kirim Pesan').removeClass('loading');
+            }
+          });
+        });
+        
+        // Auto clear form validation messages
+        $('#formKontak input, #formKontak textarea').on('input', function() {
+          if ($(this).val().trim() !== '') {
+            $(this).removeClass('error');
+          }
         });
       });
     </script>

@@ -1,26 +1,6 @@
-
-  <?php
+<?php
+require_once __DIR__ . '/../koneksi.php';
 ob_start();
-
-// Database configuration
-$host     = "localhost";
-$dbname   = "nova_trans";
-$username = "root";
-$password = "";
-
-try {
-    $conn = new PDO(
-        "mysql:host=$host;dbname=$dbname;charset=utf8mb4",
-        $username,
-        $password
-    );
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Connection failed: " . $e->getMessage());
-}
-
-$error   = "";
-$success = "";
 
 // 1) Tangani POST, lalu Redirect jika sukses
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_testimonial'])) {
@@ -30,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_testimonial'])
     if ($name === '' || $message === '') {
         $error = "Nama dan testimoni tidak boleh kosong.";
     } else {
-        $stmt = $conn->prepare("
+        $stmt = $koneksi->prepare("
             INSERT INTO testimoni (name, message)
             VALUES (:name, :message)
         ");
@@ -52,7 +32,7 @@ if (isset($_GET['berhasil']) && $_GET['berhasil'] == '1') {
 }
 
 // 3) Ambil semua testimoni terbaru
-$stmt = $conn->query("
+$stmt = $koneksi->query("
     SELECT name, message, submitted_at
     FROM testimoni
     ORDER BY submitted_at DESC
@@ -116,12 +96,23 @@ ob_end_flush();
       background: #d4edda;
       color: #155724;
     }
+    .full-text {
+      margin-top: 1rem;
+      padding: 0.5rem;
+      background: #f9f9f9;
+      border-left: 4px solid #007bff;
+      display: none;
+    }
+    .read-more {
+      cursor: pointer;
+      color: blue;
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
    <!-- Navbar -->
-   <!-- Navbar -->
-    <nav class="navbar">
+   <nav class="navbar">
       <div class="logo-mobile-wrap">
         <a href="pesantiket.php" class="logo">
           <img src="Gambar/LOGO.png" alt="Madinah Trans" />
@@ -147,47 +138,50 @@ ob_end_flush();
     </div>
   </section>
 
- <!-- Promo Section -->
-  <section class="promo-section">
+<!-- Promo Section -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <!-- ... (head lainnya tetap sama) ... -->
+  <style>
+    /* ... (CSS lainnya tetap sama) ... */
+    .full-text {
+      margin-top: 1rem;
+      padding: 0.5rem;
+      background: #f9f9f9;
+      border-left: 4px solid #007bff;
+      display: none; /* Pastikan awalnya disembunyikan */
+    }
+    .read-more {
+      cursor: pointer;
+      color: blue;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <!-- ... (navbar, hero, dll. tetap sama) ... -->
+
+<section class="promo-section">
     <div class="section-title">
       <h2>Promo dan Berita Nova Trans</h2>
     </div>
     <div class="promo-grid">
-      <div class="promo-card">
-        <img src="Gambar/millenium_limited.png" alt="Bus Makassar Luwu Timur" />
-        <span class="label">Millenium Big Class Limited</span>
-        <div class="promo-content">
-          <h3>Nova Trans: Rute Perjalanan Bus Makassar Sorowako</h3>
-          <p>
-            Nikmati perjalanan kelas premium dengan armada terbaru dan fasilitas lengkap. Tiket mulai dari Rp 250.000 dengan diskon 10% untuk pemesanan online.
-          </p>
-          <a href="#" class="read-more">Baca Selengkapnya <i class="fas fa-arrow-right"></i></a>
+      <?php
+      $stmt = $koneksi->query("SELECT * FROM berita ORDER BY tanggal DESC");
+      $berita = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      foreach ($berita as $b): ?>
+        <div class="promo-card">
+          <img src="Gambar/<?php echo htmlspecialchars($b['gambar']); ?>" alt="<?php echo htmlspecialchars($b['judul']); ?>" />
+          <span class="label">Nova Trans Class</span>
+          <div class="promo-content">
+            <h3><?php echo htmlspecialchars($b['judul']); ?></h3>
+            <p><?php echo htmlspecialchars($b['deskripsi']); ?></p>
+            <div class="full-text"><?php echo htmlspecialchars($b['teks_lengkap']); ?></div>
+            <a href="#" class="read-more" onclick="showFullText(this); return false;">Baca Selengkapnya</a>
+          </div>
         </div>
-      </div>
-
-      <div class="promo-card">
-        <img src="Gambar/Millenium Big Class.png" alt="Bus Makassar Luwu Timur" />
-        <span class="label">Millenium Big Class</span>
-        <div class="promo-content">
-          <h3>Nova Trans Makassar Sorowako Berbagai Pilihan Kelas!</h3>
-          <p>
-            Pesan Tiket Nova Trans Makassar Sorowako dengan beragam pilihan kelas. Kenyamanan perjalanan dengan harga terjangkau!
-          </p>
-          <a href="#" class="read-more">Baca Selengkapnya <i class="fas fa-arrow-right"></i></a>
-        </div>
-      </div>
-
-      <div class="promo-card">
-        <img src="Gambar/newarmada.png" alt="Bus Royal Sleeper Class" />
-        <span class="label">Royal Sleeper Class</span>
-        <div class="promo-content">
-          <h3>Royal Sleeper Class, Jadwal, Tarif, dan Fasilitas</h3>
-          <p>
-            Nikmati perjalanan nyaman dengan harga terjangkau bersama kelas tidur premium. Tersedia rute Makassar - Luwu Timur setiap hari.
-          </p>
-          <a href="#" class="read-more">Baca Selengkapnya <i class="fas fa-arrow-right"></i></a>
-        </div>
-      </div>
+      <?php endforeach; ?>
     </div>
   </section>
 
@@ -227,13 +221,6 @@ ob_end_flush();
       <h2>Apa Kata Mereka?</h2>
     </div>
 
-    <?php if ($error): ?>
-      <div class="alert alert-error"><?= htmlspecialchars($error) ?></div>
-    <?php endif; ?>
-    <?php if ($success): ?>
-      <div class="alert alert-success"><?= htmlspecialchars($success) ?></div>
-    <?php endif; ?>
-
     <form class="testimonial-form" method="post" action="">
       <input
         type="text"
@@ -251,6 +238,13 @@ ob_end_flush();
         Kirim Testimoni
       </button>
     </form>
+
+    <?php if (isset($error)): ?>
+        <div class="alert alert-error"><?= $error ?></div>
+    <?php endif; ?>
+    <?php if (isset($success)): ?>
+        <div class="alert alert-success"><?= $success ?></div>
+    <?php endif; ?>
 
     <?php if (count($testimonials)): ?>
       <?php foreach ($testimonials as $t): ?>
@@ -305,10 +299,22 @@ ob_end_flush();
         </div>
       </div>
       <div class="footer-bottom">
-        &copy; 2025 Nova Trans. All rights reserved.
+        © 2025 Nova Trans. All rights reserved.
       </div>
     </footer>
 
+<script>
+    function showFullText(element) {
+      const fullText = element.previousElementSibling;
+      if (fullText.style.display === "none" || fullText.style.display === "") {
+        fullText.style.display = "block";
+        element.textContent = "Sembunyikan";
+      } else {
+        fullText.style.display = "none";
+        element.textContent = "Baca Selengkapnya";
+      }
+    }
+  </script>
   <script src="blog.js"></script>
 </body>
 </html>

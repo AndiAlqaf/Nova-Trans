@@ -1,9 +1,9 @@
 <?php
 session_start();
-include 'koneksi.php';
+require_once __DIR__ . '/../koneksi.php'; 
 // ————————— Generate booking_session untuk pemesan —————————
 if (!isset($_SESSION['booking_session'])) {
-    $_SESSION['booking_session'] = uniqid('book_', true);
+    $_SESSION['booking_session'] = uniqid('book', true);
 }
 $booking_session = $_SESSION['booking_session'];
 
@@ -19,9 +19,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         $nama_pemesan   = $_POST['nama_pemesan'] ?? '';
 
         try {
-            $conn->beginTransaction();
+            $koneksi->beginTransaction();
             // Hapus pilihan Temporary milik session yg sama
-            $del = $conn->prepare("
+            $del = $koneksi->prepare("
                 DELETE FROM booking
                  WHERE nama_pemesan = :nama
                    AND status       = 'Temporary'
@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $del->execute([':nama' => $nama_pemesan]);
 
             // Insert setiap kursi
-            $ins = $conn->prepare("
+            $ins = $koneksi->prepare("
                 INSERT INTO booking
                   (id_bus, tanggal_pemesanan, kursi, nama_pemesan, status, created_at)
                 VALUES
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             ");
             foreach ($selected_seats as $s) {
                 // Cek availability final
-                $check = $conn->prepare("
+                $check = $koneksi->prepare("
                     SELECT COUNT(*) FROM booking
                      WHERE id_bus            = :bus
                        AND tanggal_pemesanan = :tgl
@@ -59,10 +59,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     ':nama'  => $nama_pemesan
                 ]);
             }
-            $conn->commit();
+            $koneksi->commit();
             echo json_encode(['success' => true]);
         } catch (Exception $e) {
-            $conn->rollBack();
+            $koneksi->rollBack();
             echo json_encode(['success' => false, 'message' => $e->getMessage()]);
         }
         exit;
@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                AND status IN ('Pending','Confirmed','Paid')
                AND kursi IN ($placeholders)
         ";
-        $stmt_ck = $conn->prepare($sql_check);
+        $stmt_ck = $koneksi->prepare($sql_check);
         $params  = array_merge([$id_bus, $tanggal], $seats_to_check);
         $stmt_ck->execute($params);
         $unavailable = $stmt_ck->fetchAll(PDO::FETCH_COLUMN);
@@ -94,50 +94,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 }
 
 // ————————— GET: Ambil parameter —————————
-$id_bus           = $_GET['id_bus']  ?? '';
-$tanggal          = $_GET['tanggal'] ?? '';
-$jumlah_penumpang = $_GET['jumlah']  ?? 1;
+$id_bus = !empty($_GET['id_bus']) ? $_GET['id_bus'] : (isset($bus['id_bus']) ? $bus['id_bus'] : 'default_id');
+$tanggal = !empty($_GET['tanggal']) ? $_GET['tanggal'] : (isset($_GET['tanggal']) ? $_GET['tanggal'] : date('Y-m-d'));
+$jumlah_penumpang = $_GET['jumlah'] ?? 1;
 
 /* Ambil detail bus */
-$stmt = $conn->prepare("SELECT * FROM data_bus WHERE id_bus = :id_bus");
+$stmt = $koneksi->prepare("SELECT * FROM data_bus WHERE id_bus = :id_bus");
 $stmt->execute([':id_bus' => $id_bus]);
 $bus = $stmt->fetch(PDO::FETCH_ASSOC);
 if (!$bus) die("Data bus tidak ditemukan.");
 
 /* Hitung jam tiba */
 $waktu_berangkat = new DateTime($bus['waktu_berangkat']);
-[$h,$m]          = explode(':', substr($bus['estimasi_waktu'],0,5));
+[$h,$m] = explode(':', substr($bus['estimasi_waktu'],0,5));
 $waktu_berangkat->add(new DateInterval("PT{$h}H{$m}M"));
-$waktu_tiba      = $waktu_berangkat->format('H:i');
+$waktu_tiba = $waktu_berangkat->format('H:i');
 
 /* Format tampilan tanggal */
-$t_obj          = new DateTime($tanggal);
-$hari           = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+$t_obj = new DateTime($tanggal);
+$hari = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
 $tanggal_format = $hari[$t_obj->format('w')] . ', ' . $t_obj->format('d M Y');
 
 /* Hitung harga */
 $harga_per_kursi = (int)$bus['harga_tiket'];
-$total_harga     = $harga_per_kursi * $jumlah_penumpang;
+$total_harga = $harga_per_kursi * $jumlah_penumpang;
 
 /* Ambil kursi yang sudah terpesan + Temporary user ini */
 $sql_booked = "
-    SELECT kursi FROM booking
+    SELECT DISTINCT kursi FROM booking
      WHERE id_bus            = :id_bus
        AND tanggal_pemesanan = :tanggal
-       AND status IN ('Pending','Confirmed','Paid')
-    UNION
-    SELECT kursi FROM booking
-     WHERE nama_pemesan      = :session
-       AND id_bus            = :id_bus
-       AND tanggal_pemesanan = :tanggal
-       AND status = 'Temporary'
+       AND (
+           status IN ('Pending','Confirmed','Paid')
+           OR (nama_pemesan = :session AND status = 'Temporary')
+       )
 ";
-$stmt_book = $conn->prepare($sql_booked);
+$stmt_book = $koneksi->prepare($sql_booked);
 $stmt_book->execute([
-    ':id_bus'   => $id_bus,
-    ':tanggal'  => $tanggal,
-    ':session'  => $booking_session
+    ':id_bus' => $id_bus,
+    ':tanggal' => $tanggal,
+    ':session' => $booking_session
 ]);
+
 $raw = $stmt_book->fetchAll(PDO::FETCH_COLUMN);
 $booked_seats = [];
 foreach ($raw as $entry) {
@@ -149,7 +147,6 @@ foreach ($raw as $entry) {
     }
 }
 $booked_seats = array_unique($booked_seats);
-
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -157,9 +154,8 @@ $booked_seats = array_unique($booked_seats);
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Pilih Kursi Anda - Nova Trans</title>
-  <link rel="stylesheet" href="pilihkursi.css"/>
-  <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+  <link rel="stylesheet" href="pilihkurssi.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
 </head>
 <body>
   <!-- Navbar -->
@@ -236,9 +232,9 @@ $booked_seats = array_unique($booked_seats);
                     <div class="row-number"><?=$r?></div>
                     <?php foreach(['A','B','C','D'] as $col):
                       $code = $r.$col;
-                      $state = in_array($code,$booked_seats)?'occupied':'available';
+                      $state = in_array($code, $booked_seats) ? 'occupied' : 'available';
                     ?>
-                      <div class="seat <?=$state?>" data-seat="<?=$code?>" data-price="<?=$harga_per_kursi?>">
+                      <div class="seat <?=$state?>" data-seat="<?=$code?>" data-price="<?= $harga_per_kursi ?>">
                         <?=$code?>
                       </div>
                       <?php if($col==='B'): ?><div class="aisle"></div><?php endif; ?>
@@ -282,8 +278,8 @@ $booked_seats = array_unique($booked_seats);
     </div>
   </main>
 
-   <!-- Footer -->
-<footer class="footer">
+  <!-- Footer -->
+  <footer class="footer">
       <div class="footer-content">
         <div class="footer-section footer-logo">
           <img src="Gambar/LOGO2.png" alt="Logo Nova Trans" />
@@ -318,21 +314,22 @@ $booked_seats = array_unique($booked_seats);
         </div>
       </div>
       <div class="footer-bottom">
-        &copy; 2025 Nova Trans. All rights reserved.
+        © 2025 Nova Trans. All rights reserved.
       </div>
     </footer>
 
   <script>
   document.addEventListener('DOMContentLoaded', () => {
     const busData = {
-      id: '<?= $id_bus ?>',
-      tanggal: '<?= $tanggal ?>',
-      session: '<?= $booking_session ?>',
-      harga: <?= $harga_per_kursi ?>
+        id: '<?= !empty($id_bus) ? htmlspecialchars($id_bus, ENT_QUOTES) : 'default_id' ?>',
+        tanggal: '<?= !empty($tanggal) ? htmlspecialchars($tanggal, ENT_QUOTES) : date('Y-m-d') ?>',
+        session: '<?= $booking_session ?>',
+        harga: <?= $harga_per_kursi ?>
     };
+    console.log('busData:', busData); // Debugging
     let selected = [];
     const maxSeats = 4, serviceCharge = 5000;
-    const seats = document.querySelectorAll('.seat.available');
+    const seats = document.querySelectorAll('.seat');
     const seatList = document.getElementById('selected-seats-list');
     const emptyMessage = document.getElementById('empty-message');
     const summary = document.getElementById('summary');
@@ -341,12 +338,31 @@ $booked_seats = array_unique($booked_seats);
     const total = document.getElementById('total');
     const continueBtn = document.getElementById('continue-btn');
 
-    const formatNumber = n => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g,".");
+    const formatNumber = n => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+    // Fungsi untuk memeriksa ketersediaan kursi secara dinamis
+    async function checkSeatAvailability(seatCode) {
+      const response = await post({
+        action: 'check_seats',
+        id_bus: busData.id,
+        tanggal: busData.tanggal,
+        seats: JSON.stringify([seatCode])
+      });
+      return response.unavailable_seats && response.unavailable_seats.includes(seatCode);
+    }
 
     seats.forEach(seat => {
-      seat.addEventListener('click', () => {
+      seat.addEventListener('click', async () => {
         const code = seat.dataset.seat;
-        if (seat.classList.contains('occupied')) return;
+        console.log('Seat clicked:', code, 'Classes:', seat.classList); // Debugging
+
+        // Periksa ketersediaan sebelum mengizinkan pemilihan
+        const isOccupied = await checkSeatAvailability(code);
+        if (isOccupied || seat.classList.contains('occupied')) {
+          alert('Kursi ' + code + ' sudah dipesan oleh orang lain.');
+          return;
+        }
+
         if (seat.classList.contains('selected')) {
           seat.classList.remove('selected');
           selected = selected.filter(c => c !== code);
@@ -363,6 +379,7 @@ $booked_seats = array_unique($booked_seats);
     });
 
     function render() {
+      console.log('Rendering, selected seats:', selected); // Debugging
       seatList.innerHTML = '';
       if (!selected.length) {
         emptyMessage.style.display = 'block';
@@ -390,16 +407,27 @@ $booked_seats = array_unique($booked_seats);
       try {
         const res = await fetch(window.location.href, {
           method: 'POST',
-          headers: {'Content-Type':'application/x-www-form-urlencoded'},
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: new URLSearchParams(data)
         });
-        return await res.json();
-      } catch {
-        return {success:false, message:'Terjadi kesalahan jaringan'};
+        const json = await res.json();
+        console.log('AJAX response:', json); // Debugging
+        return json;
+      } catch (e) {
+        console.error('AJAX error:', e);
+        return { success: false, message: 'Terjadi kesalahan jaringan' };
       }
     }
 
     window.continueToPayment = async () => {
+      console.log('Continuing to payment with:', { busData, selected }); // Debugging
+      if (!busData.id || busData.id === 'default_id' || !busData.tanggal || !selected.length) {
+        alert('Data pemesanan tidak lengkap. Debug: id=' + busData.id + ', tanggal=' + busData.tanggal + ', selected=' + selected.length);
+        continueBtn.disabled = false;
+        continueBtn.textContent = 'Isi Data Pemesan';
+        return;
+      }
+
       continueBtn.disabled = true;
       continueBtn.textContent = 'Memproses...';
 
@@ -411,6 +439,8 @@ $booked_seats = array_unique($booked_seats);
       });
       if (chk.unavailable_seats?.length) {
         alert('Beberapa kursi sudah terambil: ' + chk.unavailable_seats.join(', '));
+        continueBtn.disabled = false;
+        continueBtn.textContent = 'Isi Data Pemesan';
         return location.reload();
       }
 
@@ -423,16 +453,25 @@ $booked_seats = array_unique($booked_seats);
       });
       if (!save.success) {
         alert(save.message || 'Gagal menyimpan pilihan kursi');
+        continueBtn.disabled = false;
+        continueBtn.textContent = 'Isi Data Pemesan';
         return location.reload();
       }
 
-      const params = new URLSearchParams({
+      console.log('Navigating to datapemesan.php with params:', {
         id_bus: busData.id,
         tanggal: busData.tanggal,
         kursi: selected.join(','),
         total: selected.length * busData.harga + serviceCharge
       });
-      location.href = 'datapemesan.php?' + params;
+
+      const params = new URLSearchParams({
+        id_bus: busData.id,
+        tanggal: busData.tanggal,
+        kursi: selected.join(','),
+        total: (selected.length * busData.harga + serviceCharge).toString()
+      });
+      location.href = 'datapemesan.php?' + params.toString();
     };
 
     render();

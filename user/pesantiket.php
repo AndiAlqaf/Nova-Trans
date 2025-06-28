@@ -1,5 +1,7 @@
 <?php
 // pesantiket.php – Halaman Utama User
+session_start();
+require_once __DIR__ . '/../koneksi.php';
 
 // 1. Cegah cache
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
@@ -7,27 +9,14 @@ header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
 // 2. Session & Auth
-session_start();
 if (!isset($_SESSION['user_id'])) {
     header('Location: masuk.php');
     exit;
 }
 
-// 3. Koneksi DB
-$host = "localhost";
-$dbname = "nova_trans";
-$dbUser = "root";
-$dbPass = "";
-try {
-    $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $dbUser, $dbPass);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
-    die("Koneksi gagal: " . $e->getMessage());
-}
-
-// 4. Ambil nama pengguna dari tabel `user`
+// 3. Ambil nama pengguna dari tabel `user`
 $userId = $_SESSION['user_id'];
-$stmt = $conn->prepare("SELECT nama_pengguna FROM user WHERE id_pengguna = :id");
+$stmt = $koneksi->prepare("SELECT nama_pengguna FROM user WHERE id_pengguna = :id");
 $stmt->execute([':id' => $userId]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 $namaUser = $user ? $user['nama_pengguna'] : '';
@@ -39,7 +28,7 @@ $namaUser = $user ? $user['nama_pengguna'] : '';
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Pesan Tiket – Nova Trans</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="pesantikett.css"/>
+  <link rel="stylesheet" href="pesantikket.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 </head>
 <body>
@@ -59,7 +48,6 @@ $namaUser = $user ? $user['nama_pengguna'] : '';
       <a href="blog.php"><i class="fas fa-newspaper"></i> Blog</a>
     </div>
     <div class="auth-buttons">
-      <!-- Tampilkan ikon + nama user -->
       <span class="nav-user">
         <i class="fas fa-user"></i>
         <?= htmlspecialchars($namaUser, ENT_QUOTES, 'UTF-8') ?>
@@ -71,87 +59,98 @@ $namaUser = $user ? $user['nama_pengguna'] : '';
     </div>
   </nav>
 
-  <!-- Promo “Lihat Semua Tiket” -->
-<section class="xai-ticket-promo-advanced">
-  <div class="xai-ticket-promo-advanced__bg"></div>
-  <div class="xai-ticket-promo-advanced__content">
-    <h2 class="xai-ticket-promo-advanced__title">Butuh Tiket Seketika?</h2>
-    <p class="xai-ticket-promo-advanced__desc">
-      Jelajahi semua opsi tiket bus terbaik tanpa filter—pesan dengan cepat dan nikmati perjalanan nyaman Anda!
-    </p>
-    <a href="keberangkatan.php?show_all=1" class="xai-ticket-promo-advanced__btn">
-      <i class="fas fa-bus"></i> Lihat Semua Tiket
-    </a>
-  </div>
-</section>
+ <section class="nova-trans-hero">
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        
+        <div class="nova-trans-container">
+            <h1 class="nova-trans-title">Nova Trans</h1>
+            <p class="nova-trans-subtitle">
+                Jelajahi Sulawesi dengan perjalanan yang nyaman, aman dan tenang
+            </p>
+            <a href="#pencarian-tiket" class="nova-trans-cta" onclick="smoothScrollTo('pencarian-tiket')">
+                <span>Mulai Perjalanan</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </div>
+    </section>
 
+    <!-- Pencarian Tiket -->
+    <section id="pencarian-tiket" class="search-box">
+        <div class="search-box-container container">
+            <div class="shape shape-1"></div>
+            <div class="tab-menu">
+                <button class="tab-btn active" data-tab="one-way">Satu Arah</button>
+                <button class="tab-btn" data-tab="round-trip">Pulang Pergi</button>
+            </div>
+            <form class="search-form" action="keberangkatan.php" method="GET">
+                <div class="form-group">
+                    <label for="kotaAsal">Kota Asal</label>
+                    <div class="input-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <select id="kotaAsal" name="kota_asal" required>
+                            <option value="" disabled selected>Pilih lokasi</option>
+                            <option>Makassar</option>
+                            <option>Palopo</option>
+                            <option value="Enrekang">Enrekang</option>
+                            <option value="Bone">Bone</option>
+                            <option value="Pare-Pare">Pare-Pare</option>
+                            <option value="Sidrap">Sidrap</option>
+                            <option value="Mangkutana">Mangkutana</option>
+                            <option value="Sorowako">Sorowako</option>
+                            <option value="Toraja">Toraja</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="kotaTujuan">Kota Tujuan</label>
+                    <div class="input-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <select id="kotaTujuan" name="kota_tujuan" required>
+                            <option value="" disabled selected>Pilih lokasi</option>
+                            <option>Makassar</option>
+                            <option>Palopo</option>
+                            <option value="Enrekang">Enrekang</option>
+                            <option value="Bone">Bone</option>
+                            <option value="Pare-Pare">Pare-Pare</option>
+                            <option value="Sidrap">Sidrap</option>
+                            <option value="Mangkutana">Mangkutana</option>
+                            <option value="Sorowako">Sorowako</option>
+                            <option value="Toraja">Toraja</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="tanggalBerangkat">Tanggal Berangkat</label>
+                    <div class="input-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                        <input type="date" id="tanggalBerangkat" name="tanggal_berangkat" required>
+                    </div>
+                </div>
+                <div class="form-group round-trip-field" style="display:none;">
+                    <label for="tanggalPulang">Tanggal Pulang</label>
+                    <div class="input-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                        <input type="date" id="tanggalPulang" name="tanggal_pulang">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="penumpang">Penumpang</label>
+                    <div class="input-icon">
+                        <i class="fas fa-user"></i>
+                        <input type="number" id="penumpang" name="jumlah_penumpang" min="1" max="10" value="1" required>
+                    </div>
+                </div>
+                <button type="submit" class="search-btn">
+                    <i class="fas fa-search"></i> Cari Tiket
+                </button>
+            </form>
+        </div>
+    </section>
 
-
-  <!-- Pencarian Tiket -->
-<section class="search-box">
-  <div class="search-box__bg"></div>
-  <div class="search-box__container">
-    <div class="tab-menu">
-      <button class="tab-btn active" data-tab="one-way">Satu Arah</button>
-      <button class="tab-btn" data-tab="round-trip">Pulang Pergi</button>
-    </div>
-    <form class="search-form" action="keberangkatan.php" method="GET">
-      <div class="form-group">
-        <label for="kotaAsal">Kota Asal</label>
-        <div class="input-icon"><i class="fas fa-map-marker-alt"></i>
-          <select id="kotaAsal" name="kota_asal" required>
-            <option value="" disabled selected>Pilih lokasi</option>
-            <option>Makassar</option>
-            <option>Palopo</option>
-            <option value="Enrekang">Enrekang</option>
-            <option value="Bone">Bone</option>
-            <option value="Pare-Pare">Pare-Pare</option>
-            <option value="Sidrap">Sidrap</option>
-            <option value="Mangkutana">Mangkutana</option>
-            <option value="Sorowako">Sorowako</option>
-            <option value="Toraja">Toraja</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="kotaTujuan">Kota Tujuan</label>
-        <div class="input-icon"><i class="fas fa-map-marker-alt"></i>
-          <select id="kotaTujuan" name="kota_tujuan" required>
-            <option value="" disabled selected>Pilih lokasi</option>
-            <option>Makassar</option>
-            <option>Palopo</option>
-            <option value="Enrekang">Enrekang</option>
-            <option value="Bone">Bone</option>
-            <option value="Pare-Pare">Pare-Pare</option>
-            <option value="Sidrap">Sidrap</option>
-            <option value="Mangkutana">Mangkutana</option>
-            <option value="Sorowako">Sorowako</option>
-            <option value="Toraja">Toraja</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="tanggalBerangkat">Tanggal Berangkat</label>
-        <div class="input-icon"><i class="fas fa-calendar-alt"></i>
-          <input type="date" id="tanggalBerangkat" name="tanggal_berangkat" required>
-        </div>
-      </div>
-      <div class="form-group round-trip-field">
-        <label for="tanggalPulang">Tanggal Pulang</label>
-        <div class="input-icon"><i class="fas fa-calendar-alt"></i>
-          <input type="date" id="tanggalPulang" name="tanggal_pulang">
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="penumpang">Penumpang</label>
-        <div class="input-icon"><i class="fas fa-user"></i>
-          <input type="number" id="penumpang" name="jumlah_penumpang" min="1" max="10" value="1" required>
-        </div>
-      </div>
-      <button type="submit" class="search-btn"><i class="fas fa-search"></i> Cari Tiket</button>
-    </form>
-  </div>
-</section>
   <!-- Langkah Pemesanan -->
   <section class="booking-steps">
     <div class="booking-steps-container container">
@@ -346,6 +345,61 @@ $namaUser = $user ? $user['nama_pengguna'] : '';
     }
   });
 });
-  </script>
+ // Smooth scroll function with offset
+        function smoothScrollTo(targetId) {
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                const offsetTop = targetElement.offsetTop - 80; // 80px offset for better positioning
+                window.scrollTo({
+                    top: offsetTop,
+                    behavior: 'smooth'
+                });
+            } else {
+                // Jika elemen tidak ditemukan, scroll ke bawah sejauh viewport
+                window.scrollBy({
+                    top: window.innerHeight,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        // Prevent default anchor behavior and use custom scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctaButton = document.querySelector('.nova-trans-cta');
+            if (ctaButton) {
+                ctaButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    smoothScrollTo('pencarian-tiket');
+                });
+            }
+
+            // Tab functionality for search form
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const roundTripField = document.querySelector('.round-trip-field');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+
+                    // Show/hide round trip field
+                    if (this.dataset.tab === 'round-trip') {
+                        roundTripField.style.display = 'block';
+                    } else {
+                        roundTripField.style.display = 'none';
+                    }
+                });
+            });
+
+            // Set minimum date to today
+            const dateInputs = document.querySelectorAll('input[type="date"]');
+            const today = new Date().toISOString().split('T')[0];
+            dateInputs.forEach(input => {
+                input.min = today;
+            });
+        });
+    </script>
 </body>
 </html>

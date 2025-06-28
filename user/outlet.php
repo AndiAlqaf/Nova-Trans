@@ -1,19 +1,6 @@
 <?php
-// Database configuration
-$host = "localhost";
-$dbname = "nova_trans";
-$username = "root";
-$password = "";
-
-// Establish database connection
-try {
-    $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
-    die("Connection failed: " . $e->getMessage());
-}
-$error = "";
-$success = "";
+session_start();
+require_once __DIR__ . '/../koneksi.php';
 ?>
 <!DOCTYPE html>
 <html lang="id">
