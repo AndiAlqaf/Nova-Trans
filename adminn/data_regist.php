@@ -2,6 +2,9 @@
 session_start();
 require_once __DIR__ . '/../koneksi.php';
 
+// Set timezone to WITA
+date_default_timezone_set('Asia/Makassar');
+
 // Function to set flash message
 function setFlashMessage($type, $message) {
     $_SESSION['flash'] = [
@@ -184,7 +187,14 @@ try {
             </thead>
             <tbody>
             <?php while ($row = $query->fetch(PDO::FETCH_ASSOC)): ?>
-                <?php $status = ($row['login_terakhir'] && $row['login_terakhir'] === date('Y-m-d H:i:s') ? 'online' : 'offline'); ?>
+                <?php
+                $lastLogin = new DateTime($row['login_terakhir'] ?? '1970-01-01 00:00:00');
+                $now = new DateTime();
+                $interval = $now->diff($lastLogin);
+                $currentUserEmail = $_SESSION['email'] ?? ''; // Ambil email pengguna yang login dari session
+                $status = ($row['email'] === $currentUserEmail && session_status() === PHP_SESSION_ACTIVE) ? 'online' : 
+                          (($interval->i < 15 && $interval->h == 0) ? 'online' : 'offline');
+                ?>
                 <tr data-user-id="<?= htmlspecialchars($row['id_pengguna']) ?>" data-status="<?= htmlspecialchars($status) ?>" data-type="<?= htmlspecialchars($row['role']) ?>" data-date="<?= htmlspecialchars(date('Y-m-d', strtotime($row['created_at']))) ?>">
                     <td>
                         <div class="user-cell">

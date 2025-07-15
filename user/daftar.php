@@ -26,8 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         // Simpan ke DB
         $hash = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = $conn->prepare(
-            "INSERT INTO user (nama, email, hp, password, role) VALUES (?, ?, ?, ?, 'user')"
+        $stmt = $koneksi->prepare(
+            "INSERT INTO user (nama_pengguna, email, nomor_telepon, password, role) VALUES (?, ?, ?, ?, 'user')"
         );
         $stmt->execute([$nama, $email, $hp, $hash]);
         header('Location: masuk.php');
